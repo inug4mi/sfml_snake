@@ -1,7 +1,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include "draw_shape.hpp"
-
+// hello
 #define SNAKE_SIZE 20
 #define SCREEN_WIDTH 600
 #define SCREEN_HEIGHT 600

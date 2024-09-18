@@ -3,9 +3,10 @@
 #include "draw_shape.hpp"
 #include "constants.hpp"
 // corrutinas c++
-// namespace
+// namespaces
 // metaprogramacion
-
+// inline
+// constexpr
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(Constants::SCREEN_WIDTH, Constants::SCREEN_HEIGHT), "SFML Snake", sf::Style::Close);

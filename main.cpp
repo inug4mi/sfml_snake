@@ -1,26 +1,26 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include "draw_shape.hpp"
-// hello
-#define SNAKE_SIZE 20
-#define SCREEN_WIDTH 600
-#define SCREEN_HEIGHT 600
-
-int const GRID_SIZE = SCREEN_WIDTH/SNAKE_SIZE;
+#include "constants.hpp"
+// corrutinas c++
+// namespace
+// metaprogramacion
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "SFML Snake", sf::Style::Close);
+    sf::RenderWindow window(sf::VideoMode(Constants::SCREEN_WIDTH, Constants::SCREEN_HEIGHT), "SFML Snake", sf::Style::Close);
     
     DrawShape draw_shape;
 
-    sf::VertexArray lines[GRID_SIZE];
-    for (int i = 0; i < GRID_SIZE; i++){
-        lines[i] = draw_shape.myLine(SNAKE_SIZE*i,0,SNAKE_SIZE*i,SCREEN_HEIGHT,sf::Color::Red);
+    sf::VertexArray lines[Constants::GRID_SIZE];
+    for (int i = 0; i < Constants::GRID_SIZE; i++){
+        lines[i] = draw_shape.myLine(Constants::SNAKE_SIZE*i,0,Constants::SNAKE_SIZE*i,Constants::SCREEN_HEIGHT,sf::Color::Red);
     }
 
+    // main loop
     while (window.isOpen())
     {
+        // events
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -28,10 +28,15 @@ int main()
                 window.close();
         }
 
-        window.clear(sf::Color(15,15,15));
-        for (int i = 0; i < GRID_SIZE; i++){
+        // background color
+        window.clear(Constants::BG_COLOR);
+
+        // drawing grid
+        for (int i = 0; i < Constants::GRID_SIZE; i++){
             window.draw(lines[i]);
         }
+
+        // show content
         window.display();
     }
 

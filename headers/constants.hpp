@@ -8,5 +8,6 @@ namespace Constants{
     constexpr int SCREEN_HEIGHT = 600;
     constexpr int GRID_SIZE = SCREEN_WIDTH/SNAKE_SIZE;
     
-    inline constexpr sf::Color BG_COLOR = sf::Color(15,15,15); 
+    inline const sf::Color BG_COLOR = sf::Color(15,15,15); 
+    inline const sf::Color GRID_COLOR = sf::Color(30,30,30);
 }

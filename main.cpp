@@ -12,10 +12,13 @@ int main()
     sf::RenderWindow window(sf::VideoMode(Constants::SCREEN_WIDTH, Constants::SCREEN_HEIGHT), "SFML Snake", sf::Style::Close);
     
     // import my shape's class
-    DrawShape drawShape;
+    MyShape::DrawShape drawShape;
 
     // grid
-    std::vector<sf::VertexArray> grid = drawShape.myGrid();
+    std::vector<sf::VertexArray> grid = drawShape.grid();
+
+    // snake head
+    sf::RectangleShape snakeHead = drawShape.square(Constants::SNAKE_SIZE*3,Constants::SNAKE_SIZE*3,Constants::SNAKE_SIZE,sf::Color::Green);
 
     // main loop
     while (window.isOpen())
@@ -33,6 +36,9 @@ int main()
 
         // drawing grid
         for (const sf::VertexArray line : grid) window.draw(line);
+
+        // draw snake
+        window.draw(snakeHead);
 
         // show content
         window.display();

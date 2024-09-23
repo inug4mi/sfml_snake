@@ -1,4 +1,5 @@
 #include "draw_shape.hpp"
+#include <iostream>
 
 namespace MyShape{
 
@@ -38,5 +39,14 @@ namespace MyShape{
 
         return lines;
     }
+
+    bool DrawShape::collisionBetween(sf::RectangleShape rectangleShape1, sf::RectangleShape rectangleShape2){
+        if (rectangleShape1.getGlobalBounds().intersects(rectangleShape2.getGlobalBounds())){
+            std::cout << "colission done" << std::endl;
+            return true;
+        }
+        return false;
+    }
+
 
 }

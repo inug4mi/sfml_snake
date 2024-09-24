@@ -1,44 +1,39 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include "draw_shape.hpp"
+#include "shape.hpp"
 #include "constants.hpp"
 #include <vector>
-// corrutinas c++
-// namespaces
-// metaprogramacion
-// inline
-// constexpr
+#include <iostream>
+
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(Constants::SCREEN_WIDTH, Constants::SCREEN_HEIGHT), "SFML Snake", sf::Style::Close);
     window.setFramerateLimit(12);
     // import my shape's class
-    MyShape::DrawShape drawShape;
+    MyShape::Shape shape;
 
     // grid
-    std::vector<sf::VertexArray> grid = drawShape.grid();
+    std::vector<sf::VertexArray> grid = shape.grid();
 
     // snake head
-    sf::RectangleShape snakeHead = drawShape.square(
-        Constants::SNAKE_SIZE*Constants::SNAKE_Xi,
-        Constants::SNAKE_SIZE*Constants::SNAKE_Yi,
+    sf::RectangleShape snakeHead = shape.square(
+        Constants::SNAKE_SIZE * Constants::SNAKE_Xi,
+        Constants::SNAKE_SIZE * Constants::SNAKE_Yi,
         Constants::SNAKE_SIZE,
         sf::Color::Green,
-        0, 
+        0,
         sf::Color::Green
     );
-    sf::Vector2f snakeHeadPosition = snakeHead.getPosition();
-    float lastSnakeHeadXi = snakeHeadPosition.x;
-    float lastSnakeHeadYi = snakeHeadPosition.y;
-    std::vector<sf::RectangleShape> snakeBody(1601);
+
+    std::vector<sf::RectangleShape> snakeBody;
     snakeBody.push_back(snakeHead);
 
     // apple 
-    sf::RectangleShape apple = drawShape.square(
-        Constants::APPLE_SIZE*Constants::APPLE_Xi,
-        Constants::APPLE_SIZE*Constants::APPLE_Yi,
+    sf::RectangleShape apple = shape.square(
+        Constants::APPLE_SIZE * Constants::APPLE_Xi,
+        Constants::APPLE_SIZE * Constants::APPLE_Yi,
         Constants::APPLE_SIZE,
-        sf::Color::Red, 
+        sf::Color::Red,
         0
     );
 
@@ -48,6 +43,8 @@ int main()
     // main loop
     while (window.isOpen())
     {
+        sf::Vector2f snakeHeadPosition = snakeBody[0].getPosition(); 
+
         // events
         sf::Event event;
         while (window.pollEvent(event))
@@ -61,7 +58,8 @@ int main()
                 {
                     case sf::Keyboard::W:
                         direction.x = 0.0f;
-                        if (direction. y == 0){                          
+                        if (direction.y == 0){
+                            
                             direction.y = -Constants::MOVE_STEP;
                         }
                         break;
@@ -69,6 +67,7 @@ int main()
                     case sf::Keyboard::S:
                         direction.x = 0.0f;
                         if (direction.y == 0){
+                            
                             direction.y = Constants::MOVE_STEP;
                         }
                         break;
@@ -76,6 +75,7 @@ int main()
                     case sf::Keyboard::A:
                         direction.y = 0.0f;
                         if (direction.x == 0){
+                            
                             direction.x = -Constants::MOVE_STEP;
                         }
                         break;
@@ -83,6 +83,7 @@ int main()
                     case sf::Keyboard::D:
                         direction.y = 0.0f;
                         if (direction.x == 0){
+                            
                             direction.x = Constants::MOVE_STEP;
                         }
                         break;
@@ -93,41 +94,44 @@ int main()
             }
         }
 
+        // Guardar las posiciones anteriores de todas las partes de la serpiente
+        std::vector<sf::Vector2f> previousPositions;
+        for (auto& part : snakeBody)
+            previousPositions.push_back(part.getPosition());
+
+        // Mover la cabeza
+        snakeBody[0].move(direction);
+
+        // Hacer que cada parte siga a la anterior
+        for (size_t i = 1; i < snakeBody.size(); i++) {
+            snakeBody[i].setPosition(previousPositions[i - 1]);
+        }
+
         // background color
         window.clear(Constants::BG_COLOR);
 
         // drawing grid
         for (const sf::VertexArray line : grid) window.draw(line);
 
-        // draw snake
-        window.draw(snakeHead);
-        snakeHead.move(direction);
-        if (drawShape.collisionBetween(snakeHead, apple)){
-            snakeHeadPosition = snakeBody[snakeBody.size()-1].getPosition();
-            lastSnakeHeadXi = snakeHeadPosition.x;
-            lastSnakeHeadYi = snakeHeadPosition.y;
-            snakeBody.push_back(drawShape.square(
-                lastSnakeHeadXi,
-                lastSnakeHeadYi,
-                Constants::SNAKE_SIZE,
-                sf::Color::Green,
-                0, 
-                sf::Color::Green
-                )
-            );
-        }
-        sf::Vector2f snakeHeadPosition = snakeHead.getPosition();              
-        for (int i = snakeBody.size() - 1; i > 0; i--){
-            
-            snakeBody[i].setPosition(snakeHeadPosition);
-            sf::Vector2 snakeLastPartPosition = snakeBody[i].getPosition();
-            snakeBody[i-1].setPosition(snakeLastPartPosition);
-        }
-
-
+        // draw snake body
         for (int i = 0; i < snakeBody.size(); i++) {
             window.draw(snakeBody[i]);
         }
+
+        // Colision entre serpiente y la manzana
+        if (shape.collisionBetween(snakeBody[0], apple)) {
+            sf::Vector2f lastPosition = previousPositions.back();
+            snakeBody.push_back(shape.square(
+                lastPosition.x,
+                lastPosition.y,
+                Constants::SNAKE_SIZE,
+                sf::Color::Green,
+                0,
+                sf::Color::Green
+            ));
+            std::cout << "Score: " << snakeBody.size() << std::endl;
+        }
+
         window.draw(apple);
 
         // show content

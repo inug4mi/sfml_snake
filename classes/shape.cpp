@@ -1,9 +1,9 @@
-#include "draw_shape.hpp"
+#include "shape.hpp"
 #include <iostream>
 
 namespace MyShape{
 
-    sf::RectangleShape DrawShape::square(double xi, double yi, double size, sf::Color color, double thick, sf::Color outlineColor){
+    sf::RectangleShape Shape::square(double xi, double yi, double size, sf::Color color, double thick, sf::Color outlineColor){
         sf::RectangleShape square(sf::Vector2f(size, size));
         square.setPosition(xi, yi);
         square.setFillColor(color);
@@ -12,7 +12,7 @@ namespace MyShape{
         return square;
     }
 
-    sf::VertexArray DrawShape::line(double xi, double yi, double xf, double yf, sf::Color color){
+    sf::VertexArray Shape::line(double xi, double yi, double xf, double yf, sf::Color color){
         sf::VertexArray line(sf::Lines, 2);
         line[0].position = sf::Vector2f(xi,yi);
         line[1].position = sf::Vector2f(xf,yf);
@@ -21,7 +21,7 @@ namespace MyShape{
         return line;
     }
 
-    std::vector<sf::VertexArray> DrawShape::grid(){
+    std::vector<sf::VertexArray> Shape::grid(){
         std::vector<sf::VertexArray> lines(Constants::GRID_SIZE*2+2);
         int currentIndex = 0;
         
@@ -40,7 +40,7 @@ namespace MyShape{
         return lines;
     }
 
-    bool DrawShape::collisionBetween(sf::RectangleShape rectangleShape1, sf::RectangleShape rectangleShape2){
+    bool Shape::collisionBetween(sf::RectangleShape rectangleShape1, sf::RectangleShape rectangleShape2){
         if (rectangleShape1.getGlobalBounds().intersects(rectangleShape2.getGlobalBounds())){
             std::cout << "colission done" << std::endl;
             return true;

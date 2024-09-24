@@ -42,7 +42,6 @@ namespace MyShape{
 
     bool Shape::collisionBetween(sf::RectangleShape rectangleShape1, sf::RectangleShape rectangleShape2){
         if (rectangleShape1.getGlobalBounds().intersects(rectangleShape2.getGlobalBounds())){
-            std::cout << "colission done" << std::endl;
             return true;
         }
         return false;

@@ -5,6 +5,7 @@
 #include <vector>
 #include <iostream>
 #include <random>
+
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(Constants::SCREEN_WIDTH, Constants::SCREEN_HEIGHT), "SFML Snake", sf::Style::Close);
@@ -17,12 +18,16 @@ int main()
 
     sf::Vector2f randomSnakePosition(distr(gen),distr(gen));
     sf::Vector2f randomApplePosition(distr(gen),distr(gen));
-    const int thickness = 3;
+
     // import my shape's class
     MyShape::Shape shape;
 
     // grid
     std::vector<sf::VertexArray> grid = shape.grid();
+
+    // Snake head border thickness
+    const int thickness = 3;
+    bool paused = false; // pause button
 
     // snake head
     sf::RectangleShape snakeHead = shape.square(
@@ -103,49 +108,57 @@ int main()
             }
         }
 
-        // Guardar las posiciones anteriores de todas las partes de la serpiente
-        std::vector<sf::Vector2f> previousPositions;
-        for (auto& part : snakeBody)
-            previousPositions.push_back(part.getPosition());
-
-        // Mover la cabeza
-        snakeBody[0].move(direction);
-
-        // Hacer que cada parte siga a la anterior
-        for (size_t i = 1; i < snakeBody.size(); i++) {
-            snakeBody[i].setPosition(previousPositions[i - 1]);
-        }
-
         // background color
         window.clear(Constants::BG_COLOR);
 
         // drawing grid
         for (const sf::VertexArray line : grid) window.draw(line);
+
+        
+        // Guardar las posiciones anteriores de todas las partes de la serpiente
+        std::vector<sf::Vector2f> previousPositions;
+        for (auto& part : snakeBody)
+            previousPositions.push_back(part.getPosition());
+
+        if (!paused){
+            snakeBody[0].move(direction);
+            // Hacer que cada parte siga a la anterior
+            for (size_t i = 1; i < snakeBody.size(); i++) {
+                snakeBody[i].setPosition(previousPositions[i - 1]);
+            }
+        }
+
         window.draw(apple);
         // draw snake body
         for (int i = 0; i < snakeBody.size(); i++) {
             window.draw(snakeBody[i]);
         }
+        // colision entre cabeza y cualquier otra parte del cuerpo de la serpiente
+        if (!paused){
+            for (int i = 1; i < snakeBody.size(); i++){
+                if (shape.collisionBetween(snakeBody[0], snakeBody[i])){
+                    snakeBody[i].setFillColor(sf::Color::Yellow);
+                    paused = true;
+                }
+            }
         
-        // Colision entre serpiente y la manzana
-        if (shape.collisionBetween(snakeBody[0], apple)) {
-            sf::Vector2f lastPosition = previousPositions.back();
-            snakeBody.push_back(shape.square(
-                lastPosition.x,
-                lastPosition.y,
-                Constants::SNAKE_SIZE,
-                sf::Color::Green,
-                thickness,
-                sf::Color::Green
-            ));
-            score++;
-            std::cout << "Score: " << score << std::endl;
-            sf::Vector2f randomApplePosition((int)distr(gen)*Constants::APPLE_SIZE,(int)distr(gen)*Constants::APPLE_SIZE);
-            apple.setPosition(randomApplePosition);
+            // Colision entre serpiente y la manzana
+            if (shape.collisionBetween(snakeBody[0], apple)) {
+                sf::Vector2f lastPosition = previousPositions.back();
+                snakeBody.push_back(shape.square(
+                    lastPosition.x,
+                    lastPosition.y,
+                    Constants::SNAKE_SIZE,
+                    sf::Color::Green,
+                    thickness,
+                    sf::Color::Green
+                ));
+                score++;
+                std::cout << "Score: " << score << std::endl;
+                sf::Vector2f randomApplePosition((int)distr(gen)*Constants::APPLE_SIZE,(int)distr(gen)*Constants::APPLE_SIZE);
+                apple.setPosition(randomApplePosition);
+            }
         }
-
-        
-
         // show content
         window.display();
     }

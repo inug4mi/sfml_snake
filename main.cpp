@@ -4,11 +4,20 @@
 #include "constants.hpp"
 #include <vector>
 #include <iostream>
-
+#include <random>
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(Constants::SCREEN_WIDTH, Constants::SCREEN_HEIGHT), "SFML Snake", sf::Style::Close);
-    window.setFramerateLimit(12);
+    window.setFramerateLimit(5);
+ 
+    // random seed
+    std::random_device rd; // random seed
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distr(0,(int)(Constants::SCREEN_WIDTH/Constants::SNAKE_SIZE) - 1);
+
+    sf::Vector2f randomSnakePosition(distr(gen),distr(gen));
+    sf::Vector2f randomApplePosition(distr(gen),distr(gen));
+    const int thickness = 3;
     // import my shape's class
     MyShape::Shape shape;
 
@@ -21,8 +30,8 @@ int main()
         Constants::SNAKE_SIZE * Constants::SNAKE_Yi,
         Constants::SNAKE_SIZE,
         sf::Color::Green,
-        0,
-        sf::Color::Green
+        thickness,
+        sf::Color::White
     );
 
     std::vector<sf::RectangleShape> snakeBody;
@@ -30,15 +39,19 @@ int main()
 
     // apple 
     sf::RectangleShape apple = shape.square(
-        Constants::APPLE_SIZE * Constants::APPLE_Xi,
-        Constants::APPLE_SIZE * Constants::APPLE_Yi,
+        Constants::APPLE_SIZE * (int)randomApplePosition.x,
+        Constants::APPLE_SIZE * (int)randomApplePosition.y,
         Constants::APPLE_SIZE,
         sf::Color::Red,
-        0
+        0,
+        sf::Color::Red
     );
 
     // manejar direccion de movimiento
-    sf::Vector2f direction(Constants::MOVE_STEP, 0.0f);
+    //sf::Vector2f direction(Constants::MOVE_STEP, 0.0f);
+    sf::Vector2f direction(0.0f, 0.0f);
+
+    int score = 0;
 
     // main loop
     while (window.isOpen())
@@ -59,7 +72,6 @@ int main()
                     case sf::Keyboard::W:
                         direction.x = 0.0f;
                         if (direction.y == 0){
-                            
                             direction.y = -Constants::MOVE_STEP;
                         }
                         break;
@@ -67,7 +79,6 @@ int main()
                     case sf::Keyboard::S:
                         direction.x = 0.0f;
                         if (direction.y == 0){
-                            
                             direction.y = Constants::MOVE_STEP;
                         }
                         break;
@@ -75,7 +86,6 @@ int main()
                     case sf::Keyboard::A:
                         direction.y = 0.0f;
                         if (direction.x == 0){
-                            
                             direction.x = -Constants::MOVE_STEP;
                         }
                         break;
@@ -83,7 +93,6 @@ int main()
                     case sf::Keyboard::D:
                         direction.y = 0.0f;
                         if (direction.x == 0){
-                            
                             direction.x = Constants::MOVE_STEP;
                         }
                         break;
@@ -112,12 +121,12 @@ int main()
 
         // drawing grid
         for (const sf::VertexArray line : grid) window.draw(line);
-
+        window.draw(apple);
         // draw snake body
         for (int i = 0; i < snakeBody.size(); i++) {
             window.draw(snakeBody[i]);
         }
-
+        
         // Colision entre serpiente y la manzana
         if (shape.collisionBetween(snakeBody[0], apple)) {
             sf::Vector2f lastPosition = previousPositions.back();
@@ -126,13 +135,16 @@ int main()
                 lastPosition.y,
                 Constants::SNAKE_SIZE,
                 sf::Color::Green,
-                0,
+                thickness,
                 sf::Color::Green
             ));
-            std::cout << "Score: " << snakeBody.size() << std::endl;
+            score++;
+            std::cout << "Score: " << score << std::endl;
+            sf::Vector2f randomApplePosition((int)distr(gen)*Constants::APPLE_SIZE,(int)distr(gen)*Constants::APPLE_SIZE);
+            apple.setPosition(randomApplePosition);
         }
 
-        window.draw(apple);
+        
 
         // show content
         window.display();

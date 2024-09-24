@@ -4,8 +4,8 @@
 namespace MyShape{
 
     sf::RectangleShape Shape::square(double xi, double yi, double size, sf::Color color, double thick, sf::Color outlineColor){
-        sf::RectangleShape square(sf::Vector2f(size, size));
-        square.setPosition(xi, yi);
+        sf::RectangleShape square(sf::Vector2f(size - thick*2 - 1, size - thick*2 - 1));
+        square.setPosition(xi + thick, yi + thick);
         square.setFillColor(color);
         square.setOutlineThickness(thick);
         square.setOutlineColor(outlineColor);

@@ -9,7 +9,7 @@
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(Constants::SCREEN_WIDTH, Constants::SCREEN_HEIGHT), "SFML Snake", sf::Style::Close);
-    window.setFramerateLimit(5);
+    window.setFramerateLimit(8);
  
     // random seed
     std::random_device rd; // random seed
@@ -48,8 +48,8 @@ int main()
         Constants::APPLE_SIZE * (int)randomApplePosition.y,
         Constants::APPLE_SIZE,
         sf::Color::Red,
-        0,
-        sf::Color::Red
+        thickness,
+        sf::Color::Black
     );
 
     // manejar direccion de movimiento
@@ -75,31 +75,31 @@ int main()
                 switch (event.key.code)
                 {
                     case sf::Keyboard::W:
-                        direction.x = 0.0f;
                         if (direction.y == 0){
                             direction.y = -Constants::MOVE_STEP;
                         }
+                        direction.x = 0.0f;
                         break;
                     
                     case sf::Keyboard::S:
-                        direction.x = 0.0f;
                         if (direction.y == 0){
                             direction.y = Constants::MOVE_STEP;
                         }
+                        direction.x = 0.0f;
                         break;
                     
                     case sf::Keyboard::A:
-                        direction.y = 0.0f;
                         if (direction.x == 0){
                             direction.x = -Constants::MOVE_STEP;
                         }
+                        direction.y = 0.0f;
                         break;
 
                     case sf::Keyboard::D:
-                        direction.y = 0.0f;
                         if (direction.x == 0){
                             direction.x = Constants::MOVE_STEP;
                         }
+                        direction.y = 0.0f;
                         break;
 
                     default:
@@ -138,6 +138,7 @@ int main()
             for (int i = 1; i < snakeBody.size(); i++){
                 if (shape.collisionBetween(snakeBody[0], snakeBody[i])){
                     snakeBody[i].setFillColor(sf::Color::Yellow);
+                    snakeBody[i].setOutlineColor(sf::Color::White);
                     paused = true;
                 }
             }
@@ -155,7 +156,7 @@ int main()
                 ));
                 score++;
                 std::cout << "Score: " << score << std::endl;
-                sf::Vector2f randomApplePosition((int)distr(gen)*Constants::APPLE_SIZE,(int)distr(gen)*Constants::APPLE_SIZE);
+                sf::Vector2f randomApplePosition((int)distr(gen)*Constants::APPLE_SIZE + thickness,(int)distr(gen)*Constants::APPLE_SIZE + thickness);
                 apple.setPosition(randomApplePosition);
             }
         }

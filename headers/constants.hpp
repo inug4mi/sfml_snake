@@ -16,4 +16,5 @@ namespace Constants{
     
     inline const sf::Color BG_COLOR = sf::Color(15,15,15); 
     inline const sf::Color GRID_COLOR = sf::Color(30,30,30);
+    inline const sf::Color TEXT_COLOR = sf::Color(20,20,20);
 }

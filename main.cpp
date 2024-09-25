@@ -8,7 +8,7 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(Constants::SCREEN_WIDTH + 120, Constants::SCREEN_HEIGHT), "SFML Snake", sf::Style::Close);
+    sf::RenderWindow window(sf::VideoMode(Constants::SCREEN_WIDTH, Constants::SCREEN_HEIGHT), "SFML Snake", sf::Style::Close);
     window.setFramerateLimit(12);
  
     // random seed
@@ -25,8 +25,6 @@ int main()
     // grid
     std::vector<sf::VertexArray> grid = shape.grid();
 
-    // Snake head border thickness
-    const int thickness = 0;
     bool paused = false; // pause button
 
     // snake head
@@ -48,14 +46,6 @@ int main()
         sf::Color::Red
     );
 
-    // background rectangle
-    sf::RectangleShape textbg = shape.rectangle(
-        Constants::SCREEN_WIDTH,
-        0,
-        sf::Vector2f(100,Constants::SCREEN_HEIGHT),
-        Constants::BG_COLOR
-    );
-
     // manejar direccion de movimiento
     //sf::Vector2f direction(Constants::MOVE_STEP, 0.0f);
     sf::Vector2f direction(0.0f, 0.0f);
@@ -70,16 +60,23 @@ int main()
         return -1;
     }
 
+    // Caracteristicas texto
     sf::Text scoreText;
     scoreText.setFont(font);
-    scoreText.setCharacterSize(50);
-    scoreText.setFillColor(sf::Color::White);
-    scoreText.setPosition(Constants::SCREEN_WIDTH + 44, (Constants::SCREEN_WIDTH/4));
+    scoreText.setCharacterSize(300);
+    int text_w_offset = 85;
+    scoreText.setFillColor(Constants::TEXT_COLOR);
     scoreText.setString("" + std::to_string(score));
-
+    
     // main loop
     while (window.isOpen())
     {
+        
+        // update score text position
+        if (score > 9) text_w_offset = 170;
+        scoreText.setPosition(Constants::SCREEN_WIDTH/2 - text_w_offset, 10);
+
+        // track head position
         sf::Vector2f snakeHeadPosition = snakeBody[0].getPosition(); 
 
         // events
@@ -133,19 +130,19 @@ int main()
 
         // drawing grid
         for (const sf::VertexArray line : grid) window.draw(line);
+        // dibujar texto
 
+        window.draw(scoreText);
         // Guardar las posiciones anteriores de todas las partes de la serpiente
         std::vector<sf::Vector2f> previousPositions;
         for (auto& part : snakeBody)
             previousPositions.push_back(part.getPosition());
 
-        
-
         if (!paused){
             // mover cabeza en direccion
             snakeBody[0].move(direction);
 
-            std::cout << "xpos head: " <<snakeHeadPosition.x << std::endl;
+            //std::cout << "xpos head: " <<snakeHeadPosition.x << std::endl;
             // si la cabeza sobrepasa un muro, aparece del otro lado
             if (snakeHeadPosition.x < 0) {
                 snakeBody[0].setPosition(Constants::SCREEN_WIDTH - Constants::SNAKE_SIZE, snakeHeadPosition.y);
@@ -223,9 +220,6 @@ int main()
             }
         }
 
-        // dibujar texto
-        window.draw(textbg);
-        window.draw(scoreText);
         // show content
         window.display();
     }

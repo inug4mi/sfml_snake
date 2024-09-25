@@ -73,7 +73,7 @@ int main()
     {
         
         // update score text position
-        if (score > 9) text_w_offset = 170;
+        if (score > 9) text_w_offset = 165;
         scoreText.setPosition(Constants::SCREEN_WIDTH/2 - text_w_offset, 10);
 
         // track head position
@@ -88,6 +88,10 @@ int main()
 
             if (event.type == sf::Event::KeyPressed)
             {
+                if (event.key.code == sf::Keyboard::Escape){
+                    paused = !paused;
+                }
+
                 switch (event.key.code)
                 {
                     case sf::Keyboard::W:
@@ -128,11 +132,12 @@ int main()
         // background color
         window.clear(Constants::BG_COLOR);
 
+        // dibujar texto
+        window.draw(scoreText);
+
         // drawing grid
         for (const sf::VertexArray line : grid) window.draw(line);
-        // dibujar texto
-
-        window.draw(scoreText);
+        
         // Guardar las posiciones anteriores de todas las partes de la serpiente
         std::vector<sf::Vector2f> previousPositions;
         for (auto& part : snakeBody)

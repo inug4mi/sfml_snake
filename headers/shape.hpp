@@ -3,8 +3,8 @@
 #include <vector>
 #include "constants.hpp"
 
-namespace MyShape{
-    class Shape{
+namespace GEngine{
+    class Shape2D{
     public:
         sf::RectangleShape square(double xi, double yi, double size, sf::Color color);
         sf::RectangleShape rectangle(double xi, double yi, sf::Vector2f size, sf::Color color);

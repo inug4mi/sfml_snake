@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "shape.hpp"
 #include "constants.hpp"
+#include "text.hpp"
 #include <vector>
 #include <iostream>
 #include <random>
@@ -20,13 +21,13 @@ int main()
     sf::Vector2f randomApplePosition(distr(gen),distr(gen));
 
     // import my shape's class
-    MyShape::Shape shape;
+    GEngine::Shape2D shape;
 
     // grid
     std::vector<sf::VertexArray> grid = shape.grid();
 
     bool paused = false; // pause button
-
+    bool game_lost = false;
     // snake head
     sf::RectangleShape snakeHead = shape.square(
         Constants::SNAKE_SIZE * Constants::SNAKE_Xi,
@@ -53,27 +54,17 @@ int main()
     int score = 0;
 
     // texto y fuente
-    sf::Font font;
-    if (!font.loadFromFile("fonts/Arial.ttf")) {
-        // Error al cargar la fuente
-        std::cerr << "font error when loading not found" << std::endl;
-        return -1;
-    }
+    GEngine::Text text;
+    if (text.good() == -1) return -1;
+    sf::Text scoreText = text.write(std::to_string(score), 300, Constants::TEXT_COLOR);
 
-    // Caracteristicas texto
-    sf::Text scoreText;
-    scoreText.setFont(font);
-    scoreText.setCharacterSize(300);
     int text_w_offset = 85;
-    scoreText.setFillColor(Constants::TEXT_COLOR);
-    scoreText.setString("" + std::to_string(score));
-    
     // main loop
     while (window.isOpen())
     {
         
         // update score text position
-        if (score > 9) text_w_offset = 165;
+        if (score > 9) text_w_offset = 170;
         scoreText.setPosition(Constants::SCREEN_WIDTH/2 - text_w_offset, 10);
 
         // track head position
@@ -89,7 +80,9 @@ int main()
             if (event.type == sf::Event::KeyPressed)
             {
                 if (event.key.code == sf::Keyboard::Escape){
-                    paused = !paused;
+                    if (!game_lost){
+                        paused = !paused;
+                    }
                 }
 
                 switch (event.key.code)
@@ -183,6 +176,8 @@ int main()
                     snakeBody[i].setFillColor(sf::Color::Yellow);
                     snakeBody[i].setOutlineColor(sf::Color::White);
                     paused = true;
+                    game_lost = true;
+                    std::cout << "Final score: " << score << std::endl;
                 }
             }
         

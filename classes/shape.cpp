@@ -3,13 +3,18 @@
 
 namespace MyShape{
 
-    sf::RectangleShape Shape::square(double xi, double yi, double size, sf::Color color, double thick, sf::Color outlineColor){
+    sf::RectangleShape Shape::square(double xi, double yi, double size, sf::Color color){
         sf::RectangleShape square(sf::Vector2f(size, size));
         square.setPosition(xi, yi);
         square.setFillColor(color);
-        square.setOutlineThickness(thick);
-        square.setOutlineColor(outlineColor);
         return square;
+    }
+
+    sf::RectangleShape Shape::rectangle(double xi, double yi, sf::Vector2f size, sf::Color color){
+        sf::RectangleShape rectangle(sf::Vector2f(size.x, size.y));
+        rectangle.setPosition(xi, yi);
+        rectangle.setFillColor(color);
+        return rectangle;
     }
 
     sf::VertexArray Shape::line(double xi, double yi, double xf, double yf, sf::Color color){

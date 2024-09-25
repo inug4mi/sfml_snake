@@ -9,7 +9,7 @@
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(Constants::SCREEN_WIDTH, Constants::SCREEN_HEIGHT), "SFML Snake", sf::Style::Close);
-    window.setFramerateLimit(8);
+    window.setFramerateLimit(12);
  
     // random seed
     std::random_device rd; // random seed
@@ -26,7 +26,7 @@ int main()
     std::vector<sf::VertexArray> grid = shape.grid();
 
     // Snake head border thickness
-    const int thickness = 3;
+    const int thickness = 0;
     bool paused = false; // pause button
 
     // snake head
@@ -48,7 +48,7 @@ int main()
         Constants::APPLE_SIZE * (int)randomApplePosition.y,
         Constants::APPLE_SIZE,
         sf::Color::Red,
-        thickness,
+        0,
         sf::Color::Black
     );
 
@@ -75,31 +75,32 @@ int main()
                 switch (event.key.code)
                 {
                     case sf::Keyboard::W:
+                        direction.x = 0.0f;
                         if (direction.y == 0){
                             direction.y = -Constants::MOVE_STEP;
                         }
-                        direction.x = 0.0f;
                         break;
                     
                     case sf::Keyboard::S:
+                        direction.x = 0.0f;
                         if (direction.y == 0){
                             direction.y = Constants::MOVE_STEP;
                         }
-                        direction.x = 0.0f;
                         break;
                     
                     case sf::Keyboard::A:
+                        direction.y = 0.0f;
                         if (direction.x == 0){
                             direction.x = -Constants::MOVE_STEP;
+
                         }
-                        direction.y = 0.0f;
                         break;
 
                     case sf::Keyboard::D:
+                        direction.y = 0.0f;
                         if (direction.x == 0){
                             direction.x = Constants::MOVE_STEP;
                         }
-                        direction.y = 0.0f;
                         break;
 
                     default:
@@ -156,8 +157,25 @@ int main()
                 ));
                 score++;
                 std::cout << "Score: " << score << std::endl;
-                sf::Vector2f randomApplePosition((int)distr(gen)*Constants::APPLE_SIZE + thickness,(int)distr(gen)*Constants::APPLE_SIZE + thickness);
-                apple.setPosition(randomApplePosition);
+                bool newApple = false;
+                while (!newApple){
+                    newApple = true;
+                    int newApplePosX = (int)distr(gen)*Constants::APPLE_SIZE;
+                    int newApplePosY = (int)distr(gen)*Constants::APPLE_SIZE;
+                    for (size_t i = 0; i < snakeBody.size(); i++) {
+                        sf::Vector2f posi = snakeBody[i].getPosition();
+                        std::cout << "newApplePosX: " << newApplePosX << ", newApplePosY: " << newApplePosY << std::endl;
+                        std::cout << "BodyPartX: " << posi.x << ", BodyPartY: " << posi.y << std::endl;
+                        if (newApplePosX == posi.x && newApplePosY == posi.y){
+                            newApple = false;
+                            break;
+                        }
+                    }
+                    if (newApple) {
+                        sf::Vector2f randomApplePosition(newApplePosX,newApplePosY);
+                        apple.setPosition(randomApplePosition);
+                    }
+                }
             }
         }
         // show content

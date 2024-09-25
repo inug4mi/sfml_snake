@@ -9,8 +9,8 @@ namespace Constants{
     constexpr int APPLE_SIZE = SNAKE_SIZE;
     constexpr int APPLE_Xi = 25;
     constexpr int APPLE_Yi = 25;
-    constexpr int SCREEN_WIDTH = 800;
-    constexpr int SCREEN_HEIGHT = 800;
+    constexpr int SCREEN_WIDTH = 500;
+    constexpr int SCREEN_HEIGHT = 500;
     constexpr int GRID_SIZE = SCREEN_WIDTH/SNAKE_SIZE;
     const float MOVE_STEP = SNAKE_SIZE;
     

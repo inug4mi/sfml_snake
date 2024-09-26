@@ -57,7 +57,7 @@ int main()
     GEngine::Text text;
     if (text.good() == -1) return -1;
     sf::Text scoreText = text.write(std::to_string(score), 300, Constants::TEXT_COLOR);
-
+    // ive changed
     int text_w_offset = 85;
     // main loop
     while (window.isOpen())

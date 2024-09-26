@@ -1,9 +1,9 @@
 #pragma once
 
 namespace GEngine{
-    class Game {
+    class Variables {
     public:
-        Game();  // Constructor to initialize default values
+        Variables();  // Constructor to initialize default values
 
         // Accessor methods (getters)
         bool isPaused() const;

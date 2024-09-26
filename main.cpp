@@ -5,7 +5,7 @@
 #include "constants.hpp"
 #include "text.hpp"
 #include "collision.hpp"
-#include "game.hpp"
+#include "variables.hpp"
 #include <vector>
 #include <iostream>
 #include <random>
@@ -17,7 +17,7 @@ int main()
     renderer.setFramerateLimit(12);
 
     // variables
-    GEngine::Game game;
+    GEngine::Variables variables;
 
     // engine shape
     GEngine::Shape2D shape;
@@ -68,13 +68,13 @@ int main()
 
     // texto y fuente
     if (text.good() == -1) return -1;
-    sf::Text scoreText = text.write(std::to_string(game.getScore()), 300, Constants::TEXT_COLOR);
+    sf::Text scoreText = text.write(std::to_string(variables.getScore()), 300, Constants::TEXT_COLOR);
     
     // main loop
     while (renderer.isOpen())
     {
         // update score text position
-        if (game.getScore() > 9) text_w_offset = 170;
+        if (variables.getScore() > 9) text_w_offset = 170;
         scoreText.setPosition(Constants::SCREEN_WIDTH/2 - text_w_offset, 10);
 
         // track head position
@@ -91,8 +91,8 @@ int main()
             if (event.type == sf::Event::KeyPressed)
             {
                 if (event.key.code == sf::Keyboard::Escape){
-                    if (!game.isGameLost()){
-                        game.setPaused(!game.isPaused());
+                    if (!variables.isGameLost()){
+                        variables.setPaused(!variables.isPaused());
                     }
                 }
 
@@ -147,7 +147,7 @@ int main()
         for (auto& part : snakeBody)
             previousPositions.push_back(part.getPosition());
 
-        if (!game.isPaused()){
+        if (!variables.isPaused()){
             // mover cabeza en direccion
             snakeBody[0].move(direction);
 
@@ -180,14 +180,14 @@ int main()
         }
 
         // colision entre cabeza y cualquier otra parte del cuerpo de la serpiente
-        if (!game.isPaused()){
+        if (!variables.isPaused()){
             for (int i = 1; i < snakeBody.size(); i++){
                 if (collision.between(snakeBody[0], snakeBody[i])){
                     snakeBody[i].setFillColor(sf::Color::Yellow);
                     snakeBody[i].setOutlineColor(sf::Color::White);
-                    game.setPaused(true);
-                    game.setGameLost(true);
-                    std::cout << "Final score: " << game.getScore() << std::endl;
+                    variables.setPaused(true);
+                    variables.setGameLost(true);
+                    std::cout << "Final score: " << variables.getScore() << std::endl;
                 }
             }
         
@@ -200,11 +200,11 @@ int main()
                     Constants::SNAKE_SIZE,
                     sf::Color(109,233,109)
                 ));
-                game.addScore(1);
+                variables.addScore(1);
                 //std::cout << "Score: " << score << std::endl; // aumenta el puntaje
 
                 // actualizar texto score
-                scoreText.setString("" + std::to_string(game.getScore()));
+                scoreText.setString("" + std::to_string(variables.getScore()));
 
                 // la manzana cambia de posicion
                 // la posicion NO PUEDE estar en una posicion del cuerpo de la serpiente

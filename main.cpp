@@ -13,7 +13,7 @@ int main()
 {
     // engine window
     GEngine::Renderer renderer(Constants::SCREEN_WIDTH, Constants::SCREEN_HEIGHT, "SFML Snake");
-    renderer.setFramerateLimit(12);
+    renderer.wsetFramerateLimit(12);
 
     // variables
     GEngine::Variables variables;
@@ -61,7 +61,7 @@ int main()
     sf::Text scoreText = text.write(std::to_string(variables.getScore()), 300, Constants::TEXT_COLOR);
     
     // main loop
-    while (renderer.isOpen())
+    while (renderer.wisOpen())
     {
         // update score text position
         if (variables.getScore() > 9) text_w_offset = 170;
@@ -76,7 +76,7 @@ int main()
         while (renderer.window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
-                renderer.close();
+                renderer.wclose();
             
             if (event.type == sf::Event::KeyPressed)
             {
@@ -124,13 +124,13 @@ int main()
         }
 
         // background color
-        renderer.clear(Constants::BG_COLOR);
+        renderer.wclear(Constants::BG_COLOR);
 
         // dibujar texto
-        renderer.draw(scoreText);
+        renderer.wdraw(scoreText);
 
         // drawing grid
-        for (const sf::VertexArray line : grid) renderer.draw(line);
+        for (const sf::VertexArray line : grid) renderer.wdraw(line);
         
         // Guardar las posiciones anteriores de todas las partes de la serpiente
         std::vector<sf::Vector2f> previousPositions;
@@ -163,10 +163,10 @@ int main()
 
         }
 
-        renderer.draw(apple);
+        renderer.wdraw(apple);
         // draw snake body
         for (int i = 0; i < snakeBody.size(); i++) {
-            renderer.draw(snakeBody[i]);
+            renderer.wdraw(snakeBody[i]);
         }
 
         // colision entre cabeza y cualquier otra parte del cuerpo de la serpiente
@@ -221,7 +221,7 @@ int main()
         }
 
         // show content
-        renderer.display();
+        renderer.wdisplay();
     }
 
     return 0;

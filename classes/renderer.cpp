@@ -6,15 +6,15 @@ namespace GEngine {
         window.setFramerateLimit(60); // Default frame limit
     }
 
-    void Renderer::clear(const sf::Color &color) {
+    void Renderer::wclear(const sf::Color &color) {
         window.clear(color); // Clear the window
     }
 
-    void Renderer::close(){
+    void Renderer::wclose(){
         window.close();
     }
 
-    void Renderer::display() {
+    void Renderer::wdisplay() {
         window.display(); // Display the rendered frame
     }
 
@@ -69,13 +69,13 @@ namespace GEngine {
    //            }
    //        }
    //    }
-   //}
+   //}w3|
 
-    bool Renderer::isOpen() const {
+    bool Renderer::wisOpen() const {
         return window.isOpen(); // Return window status
     }
 
-    void Renderer::setFramerateLimit(unsigned int limit) {
+    void Renderer::wsetFramerateLimit(unsigned int limit) {
         window.setFramerateLimit(limit); // Set the framerate limit
     }
 }

@@ -1,9 +1,10 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include "renderer.hpp"
-#include "shape.hpp"
+#include "shape2D.hpp"
 #include "constants.hpp"
 #include "text.hpp"
+#include "collision.hpp"
 #include <vector>
 #include <iostream>
 #include <random>
@@ -19,6 +20,8 @@ int main()
 
     // engine text
     GEngine::Text text;
+
+    GEngine::Collision collision;
 
     // random seed
     std::random_device rd; // random seed
@@ -179,7 +182,7 @@ int main()
         // colision entre cabeza y cualquier otra parte del cuerpo de la serpiente
         if (!paused){
             for (int i = 1; i < snakeBody.size(); i++){
-                if (shape.collisionBetween(snakeBody[0], snakeBody[i])){
+                if (collision.between(snakeBody[0], snakeBody[i])){
                     snakeBody[i].setFillColor(sf::Color::Yellow);
                     snakeBody[i].setOutlineColor(sf::Color::White);
                     paused = true;
@@ -189,7 +192,7 @@ int main()
             }
         
             // Colision entre serpiente y la manzana
-            if (shape.collisionBetween(snakeBody[0], apple)) {
+            if (collision.between(snakeBody[0], apple)) {
                 sf::Vector2f lastPosition = previousPositions.back();
                 snakeBody.push_back(shape.square(
                     lastPosition.x,

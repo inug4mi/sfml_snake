@@ -1,4 +1,4 @@
-#include "shape.hpp"
+#include "shape2D.hpp"
 #include <iostream>
 
 namespace GEngine{
@@ -45,12 +45,12 @@ namespace GEngine{
         return lines;
     }
 
-    bool Shape2D::collisionBetween(sf::RectangleShape rectangleShape1, sf::RectangleShape rectangleShape2){
-        if (rectangleShape1.getGlobalBounds().intersects(rectangleShape2.getGlobalBounds())){
-            return true;
-        }
-        return false;
-    }
+    //bool Shape2D::collisionBetween(sf::RectangleShape rectangleShape1, sf::RectangleShape rectangleShape2){
+    //    if (rectangleShape1.getGlobalBounds().intersects(rectangleShape2.getGlobalBounds())){
+    //        return true;
+    //    }
+    //    return false;
+    //}
 
 
 }

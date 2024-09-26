@@ -5,6 +5,7 @@
 #include "constants.hpp"
 #include "text.hpp"
 #include "collision.hpp"
+#include "game.hpp"
 #include <vector>
 #include <iostream>
 #include <random>
@@ -15,12 +16,16 @@ int main()
     GEngine::Renderer renderer(Constants::SCREEN_WIDTH, Constants::SCREEN_HEIGHT, "SFML Snake");
     renderer.setFramerateLimit(12);
 
+    // variables
+    GEngine::Game game;
+
     // engine shape
     GEngine::Shape2D shape;
 
     // engine text
     GEngine::Text text;
 
+    // engine collision
     GEngine::Collision collision;
 
     // random seed
@@ -35,9 +40,6 @@ int main()
     std::vector<sf::VertexArray> grid = shape.grid();
 
     // variables
-    bool paused = false; // pause button
-    bool game_lost = false; // lost game
-    int score = 0; // score
     int text_w_offset = 85; // offset en texto del puntaje
 
     // snake head
@@ -66,14 +68,13 @@ int main()
 
     // texto y fuente
     if (text.good() == -1) return -1;
-    sf::Text scoreText = text.write(std::to_string(score), 300, Constants::TEXT_COLOR);
+    sf::Text scoreText = text.write(std::to_string(game.getScore()), 300, Constants::TEXT_COLOR);
     
     // main loop
     while (renderer.isOpen())
     {
-        
         // update score text position
-        if (score > 9) text_w_offset = 170;
+        if (game.getScore() > 9) text_w_offset = 170;
         scoreText.setPosition(Constants::SCREEN_WIDTH/2 - text_w_offset, 10);
 
         // track head position
@@ -90,8 +91,8 @@ int main()
             if (event.type == sf::Event::KeyPressed)
             {
                 if (event.key.code == sf::Keyboard::Escape){
-                    if (!game_lost){
-                        paused = !paused;
+                    if (!game.isGameLost()){
+                        game.setPaused(!game.isPaused());
                     }
                 }
 
@@ -146,7 +147,7 @@ int main()
         for (auto& part : snakeBody)
             previousPositions.push_back(part.getPosition());
 
-        if (!paused){
+        if (!game.isPaused()){
             // mover cabeza en direccion
             snakeBody[0].move(direction);
 
@@ -178,16 +179,15 @@ int main()
             renderer.draw(snakeBody[i]);
         }
 
-
         // colision entre cabeza y cualquier otra parte del cuerpo de la serpiente
-        if (!paused){
+        if (!game.isPaused()){
             for (int i = 1; i < snakeBody.size(); i++){
                 if (collision.between(snakeBody[0], snakeBody[i])){
                     snakeBody[i].setFillColor(sf::Color::Yellow);
                     snakeBody[i].setOutlineColor(sf::Color::White);
-                    paused = true;
-                    game_lost = true;
-                    std::cout << "Final score: " << score << std::endl;
+                    game.setPaused(true);
+                    game.setGameLost(true);
+                    std::cout << "Final score: " << game.getScore() << std::endl;
                 }
             }
         
@@ -200,11 +200,11 @@ int main()
                     Constants::SNAKE_SIZE,
                     sf::Color(109,233,109)
                 ));
-                score++;
+                game.addScore(1);
                 //std::cout << "Score: " << score << std::endl; // aumenta el puntaje
 
                 // actualizar texto score
-                scoreText.setString("" + std::to_string(score));
+                scoreText.setString("" + std::to_string(game.getScore()));
 
                 // la manzana cambia de posicion
                 // la posicion NO PUEDE estar en una posicion del cuerpo de la serpiente

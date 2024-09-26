@@ -8,7 +8,6 @@
 #include "variables.hpp"
 #include <vector>
 #include <iostream>
-#include <random>
 
 int main()
 {
@@ -27,14 +26,6 @@ int main()
 
     // engine collision
     GEngine::Collision collision;
-
-    // random seed
-    std::random_device rd; // random seed
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> distr(0,(int)(Constants::SCREEN_WIDTH/Constants::SNAKE_SIZE) - 1);
-
-    sf::Vector2f randomSnakePosition(distr(gen),distr(gen));
-    sf::Vector2f randomApplePosition(distr(gen),distr(gen));
 
     // grid
     std::vector<sf::VertexArray> grid = shape.grid();
@@ -63,7 +54,6 @@ int main()
     );
 
     // manejar direccion de movimiento
-    //sf::Vector2f direction(Constants::MOVE_STEP, 0.0f);
     sf::Vector2f direction(0.0f, 0.0f);
 
     // texto y fuente
@@ -211,8 +201,8 @@ int main()
                 bool newApple = false;
                 while (!newApple){
                     newApple = true;
-                    int newApplePosX = (int)distr(gen)*Constants::APPLE_SIZE;
-                    int newApplePosY = (int)distr(gen)*Constants::APPLE_SIZE;
+                    int newApplePosX = (int)variables.generateRandomInt(0,(int)((Constants::SCREEN_WIDTH/Constants::SNAKE_SIZE) - 1))*Constants::APPLE_SIZE;
+                    int newApplePosY = (int)variables.generateRandomInt(0,(int)((Constants::SCREEN_WIDTH/Constants::SNAKE_SIZE) - 1))*Constants::APPLE_SIZE;
                     for (size_t i = 0; i < snakeBody.size(); i++) {
                         sf::Vector2f posi = snakeBody[i].getPosition();
                         //std::cout << "newApplePosX: " << newApplePosX << ", newApplePosY: " << newApplePosY << std::endl;

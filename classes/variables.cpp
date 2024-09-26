@@ -2,7 +2,14 @@
 
 namespace GEngine{
     // Constructor
-    Variables::Variables() : paused(false), game_lost(false), score(0) {}
+    Variables::Variables() : paused(false), game_lost(false), score(0) {
+        std::mt19937 gen(rd());
+    }
+
+    int Variables::generateRandomInt(int from, int to) {
+        std::uniform_int_distribution<> distr(from,to);
+        return distr(gen);
+    }
 
     // Accessor methods
     bool Variables::isPaused() const {

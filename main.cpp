@@ -1,5 +1,6 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
+#include "renderer.hpp"
 #include "shape.hpp"
 #include "constants.hpp"
 #include "text.hpp"
@@ -9,9 +10,16 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(Constants::SCREEN_WIDTH, Constants::SCREEN_HEIGHT), "SFML Snake", sf::Style::Close);
-    window.setFramerateLimit(12);
- 
+    // engine window
+    GEngine::Renderer renderer(Constants::SCREEN_WIDTH, Constants::SCREEN_HEIGHT, "SFML Snake");
+    renderer.setFramerateLimit(12);
+
+    // engine shape
+    GEngine::Shape2D shape;
+
+    // engine text
+    GEngine::Text text;
+
     // random seed
     std::random_device rd; // random seed
     std::mt19937 gen(rd());
@@ -20,14 +28,15 @@ int main()
     sf::Vector2f randomSnakePosition(distr(gen),distr(gen));
     sf::Vector2f randomApplePosition(distr(gen),distr(gen));
 
-    // import my shape's class
-    GEngine::Shape2D shape;
-
     // grid
     std::vector<sf::VertexArray> grid = shape.grid();
 
+    // variables
     bool paused = false; // pause button
-    bool game_lost = false;
+    bool game_lost = false; // lost game
+    int score = 0; // score
+    int text_w_offset = 85; // offset en texto del puntaje
+
     // snake head
     sf::RectangleShape snakeHead = shape.square(
         Constants::SNAKE_SIZE * Constants::SNAKE_Xi,
@@ -36,6 +45,7 @@ int main()
         sf::Color::Green
     );
 
+    // snake head+body vector
     std::vector<sf::RectangleShape> snakeBody;
     snakeBody.push_back(snakeHead);
 
@@ -51,15 +61,12 @@ int main()
     //sf::Vector2f direction(Constants::MOVE_STEP, 0.0f);
     sf::Vector2f direction(0.0f, 0.0f);
 
-    int score = 0;
-
     // texto y fuente
-    GEngine::Text text;
     if (text.good() == -1) return -1;
     sf::Text scoreText = text.write(std::to_string(score), 300, Constants::TEXT_COLOR);
-    int text_w_offset = 85;
+    
     // main loop
-    while (window.isOpen())
+    while (renderer.isOpen())
     {
         
         // update score text position
@@ -70,12 +77,13 @@ int main()
         sf::Vector2f snakeHeadPosition = snakeBody[0].getPosition(); 
 
         // events
+        //renderer.pollEvents();
         sf::Event event;
-        while (window.pollEvent(event))
+        while (renderer.window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
-                window.close();
-
+                renderer.close();
+            
             if (event.type == sf::Event::KeyPressed)
             {
                 if (event.key.code == sf::Keyboard::Escape){
@@ -92,14 +100,14 @@ int main()
                             direction.y = -Constants::MOVE_STEP;
                         }
                         break;
-                    
+
                     case sf::Keyboard::S:
                         direction.x = 0.0f;
                         if (direction.y == 0){
                             direction.y = Constants::MOVE_STEP;
                         }
                         break;
-                    
+
                     case sf::Keyboard::A:
                         direction.y = 0.0f;
                         if (direction.x == 0){
@@ -122,13 +130,13 @@ int main()
         }
 
         // background color
-        window.clear(Constants::BG_COLOR);
+        renderer.clear(Constants::BG_COLOR);
 
         // dibujar texto
-        window.draw(scoreText);
+        renderer.draw(scoreText);
 
         // drawing grid
-        for (const sf::VertexArray line : grid) window.draw(line);
+        for (const sf::VertexArray line : grid) renderer.draw(line);
         
         // Guardar las posiciones anteriores de todas las partes de la serpiente
         std::vector<sf::Vector2f> previousPositions;
@@ -161,10 +169,10 @@ int main()
 
         }
 
-        window.draw(apple);
+        renderer.draw(apple);
         // draw snake body
         for (int i = 0; i < snakeBody.size(); i++) {
-            window.draw(snakeBody[i]);
+            renderer.draw(snakeBody[i]);
         }
 
 
@@ -220,7 +228,7 @@ int main()
         }
 
         // show content
-        window.display();
+        renderer.display();
     }
 
     return 0;

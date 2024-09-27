@@ -58,71 +58,21 @@ int main()
 
     // texto y fuente
     if (text.good() == -1) return -1;
-    sf::Text scoreText = text.write(std::to_string(variables.getScore()), 300, Constants::TEXT_COLOR);
+    sf::Text scoreText = text.write(std::to_string(variables.score), 300, Constants::TEXT_COLOR);
     
     // main loop
     while (renderer.wisOpen())
     {
         // update score text position
-        if (variables.getScore() > 9) text_w_offset = 170;
+        if (variables.score > 9) text_w_offset = 170;
         scoreText.setPosition(Constants::SCREEN_WIDTH/2 - text_w_offset, 10);
 
         // track head position
         sf::Vector2f snakeHeadPosition = snakeBody[0].getPosition(); 
 
         // events
-        //renderer.pollEvents();
-        sf::Event event;
-        while (renderer.window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                renderer.wclose();
-            
-            if (event.type == sf::Event::KeyPressed)
-            {
-                if (event.key.code == sf::Keyboard::Escape){
-                    if (!variables.isGameLost()){
-                        variables.setPaused(!variables.isPaused());
-                    }
-                }
-
-                switch (event.key.code)
-                {
-                    case sf::Keyboard::W:
-                        direction.x = 0.0f;
-                        if (direction.y == 0){
-                            direction.y = -Constants::MOVE_STEP;
-                        }
-                        break;
-
-                    case sf::Keyboard::S:
-                        direction.x = 0.0f;
-                        if (direction.y == 0){
-                            direction.y = Constants::MOVE_STEP;
-                        }
-                        break;
-
-                    case sf::Keyboard::A:
-                        direction.y = 0.0f;
-                        if (direction.x == 0){
-                            direction.x = -Constants::MOVE_STEP;
-
-                        }
-                        break;
-
-                    case sf::Keyboard::D:
-                        direction.y = 0.0f;
-                        if (direction.x == 0){
-                            direction.x = Constants::MOVE_STEP;
-                        }
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-        }
-
+        renderer.wpollEvents(variables, direction);
+        
         // background color
         renderer.wclear(Constants::BG_COLOR);
 
@@ -137,7 +87,7 @@ int main()
         for (auto& part : snakeBody)
             previousPositions.push_back(part.getPosition());
 
-        if (!variables.isPaused()){
+        if (!variables.pause){
             // mover cabeza en direccion
             snakeBody[0].move(direction);
 
@@ -170,14 +120,14 @@ int main()
         }
 
         // colision entre cabeza y cualquier otra parte del cuerpo de la serpiente
-        if (!variables.isPaused()){
+        if (!variables.pause){
             for (int i = 1; i < snakeBody.size(); i++){
                 if (collision.between(snakeBody[0], snakeBody[i])){
                     snakeBody[i].setFillColor(sf::Color::Yellow);
                     snakeBody[i].setOutlineColor(sf::Color::White);
-                    variables.setPaused(true);
-                    variables.setGameLost(true);
-                    std::cout << "Final score: " << variables.getScore() << std::endl;
+                    variables.pause = true;
+                    variables.gameLost;
+                    std::cout << "Final score: " << variables.score << std::endl;
                 }
             }
         
@@ -190,11 +140,11 @@ int main()
                     Constants::SNAKE_SIZE,
                     sf::Color(109,233,109)
                 ));
-                variables.addScore(1);
+                variables.score++;
                 //std::cout << "Score: " << score << std::endl; // aumenta el puntaje
 
                 // actualizar texto score
-                scoreText.setString("" + std::to_string(variables.getScore()));
+                scoreText.setString("" + std::to_string(variables.score));
 
                 // la manzana cambia de posicion
                 // la posicion NO PUEDE estar en una posicion del cuerpo de la serpiente

@@ -2,24 +2,32 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
+#include "variables.hpp"
 
 namespace GEngine {
     class Renderer {
     public:
         Renderer(int width, int height, const std::string &title);
         
-        void wclear(const sf::Color &color);                       // Clear the window
+        void wclear(const sf::Color &color);                       
+        
         void wclose();
-        void wdisplay();                     // Display the frame
-        void wpollEvents();                  // Poll and handle events
-        bool wisOpen() const;                // Check if the window is open
-        void wsetFramerateLimit(unsigned int limit); // Set the framerate limit
+        
+        void wdisplay();                                 
+        
+        bool wisOpen() const;                
+        
+        void wsetFramerateLimit(unsigned int limit); 
+        
         template <typename T>
         void wdraw(const T &object) {
             window.draw(object);
         }
 
+        void wpollEvents(GEngine::Variables &variables, sf::Vector2f &direction);   
+
         // hacer privado variable window
-        sf::RenderWindow window;            // SFML RenderWindow instance
+        sf::RenderWindow window;  
+        sf::Event event;         
     };
 }

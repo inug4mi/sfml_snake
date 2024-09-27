@@ -97,7 +97,7 @@ int main()
 
         // drawing grid
         for (const sf::VertexArray line : grid) renderer.wdraw(line);
-        
+        //helo
 
         // Guardar las posiciones anteriores de todas las partes de la serpiente
         std::vector<sf::Vector2f> previousPositions;

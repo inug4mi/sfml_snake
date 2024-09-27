@@ -6,14 +6,21 @@
 #include "text.hpp"
 #include "collision.hpp"
 #include "variables.hpp"
+#include "database.hpp"
 #include <vector>
 #include <iostream>
 
 int main()
 {
+    /// Instantiating game engine ///
+
     // engine window
     GEngine::Renderer renderer(Constants::SCREEN_WIDTH, Constants::SCREEN_HEIGHT, "SFML Snake");
     renderer.wsetFramerateLimit(12);
+
+    // Base de datos
+    GEngine::Database db("SnakeDatabase.txt");
+    //.addNonExistingPlayerScore("Inug4mi",0);
 
     // variables
     GEngine::Variables variables;
@@ -26,6 +33,10 @@ int main()
 
     // engine collision
     GEngine::Collision collision;
+
+    /// ******************* ///
+
+    /// GAME BEHAVIOR STUFF ///
 
     // grid
     std::vector<sf::VertexArray> grid = shape.grid();
@@ -60,6 +71,8 @@ int main()
     if (text.good() == -1) return -1;
     sf::Text scoreText = text.write(std::to_string(variables.score), 300, Constants::TEXT_COLOR);
     
+    ///**********************///
+
     // main loop
     while (renderer.wisOpen())
     {
@@ -127,7 +140,9 @@ int main()
                     snakeBody[i].setOutlineColor(sf::Color::White);
                     variables.pause = true;
                     variables.gameLost;
-                    std::cout << "Final score: " << variables.score << std::endl;
+                    db.addExistingPlayerScore("Inug4mi",variables.score);
+                    db.showDatabaseInfo();
+                    //std::cout << "Final score: " << variables.score << std::endl;
                 }
             }
         
@@ -138,11 +153,10 @@ int main()
                     lastPosition.x,
                     lastPosition.y,
                     Constants::SNAKE_SIZE,
-                    sf::Color(109,233,109)
+                    sf::Color(-109*snakeBody.size(),233-snakeBody.size()*2,109-snakeBody.size())
                 ));
+                // score added
                 variables.score++;
-                //std::cout << "Score: " << score << std::endl; // aumenta el puntaje
-
                 // actualizar texto score
                 scoreText.setString("" + std::to_string(variables.score));
 

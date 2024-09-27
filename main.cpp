@@ -12,7 +12,7 @@
 
 int main()
 {
-    // these are changes
+    // these are changes onto engine
     /// Instantiating game engine ///
 
     // engine window

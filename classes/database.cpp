@@ -50,36 +50,43 @@ namespace GEngine{
         return playerScores;
     }
 
-    // Método para agregar un nuevo jugador y su puntaje al archivo
-    void Database::addNonExistingPlayerScore(const std::string& playerName, int score) {
-        std::ofstream file(filename, std::ios::app); // Abre el archivo en modo append
+    void Database::addPlayerScore(const std::string& playerName, int& score) {
+        std::vector<std::pair<std::string, int>> playerScores = readDatabase();
+        bool playerFound = false;
+
+        // Busca si el jugador ya existe en la base de datos
+        for (auto& entry : playerScores) {
+            if (entry.first == playerName) {
+                playerFound = true;
+                // Si el puntaje actual es mayor que el anterior, lo actualizamos
+                if (entry.second < score) {
+                    entry.second = score;
+                }
+                break;
+            }
+        }
+
+        // Si el jugador no fue encontrado, lo agregamos con su puntaje
+        if (!playerFound) {
+            playerScores.push_back(std::make_pair(playerName, score));
+        }
+
+        // Sobreescribimos el archivo con los datos actualizados
+        std::ofstream file(filename); // Modo por defecto: truncar el archivo
 
         if (!file) {
             std::cerr << "Error al abrir el archivo: " << filename << std::endl;
             return;
         }
 
-        // Escribe el nombre del jugador y su puntaje en el archivo
-        file << playerName << " " << score << std::endl;
+        // Escribimos todos los jugadores y sus puntajes en el archivo
+        for (const auto& entry : playerScores) {
+            file << entry.first << " " << entry.second << std::endl;
+        }
 
         file.close();
     }
 
-    void Database::addExistingPlayerScore(const std::string& playerName, int score){
-        std::vector<std::pair<std::string, int>> playerScores = readDatabase(); 
-        bool playerFound = false;
-    
-        for (auto& entry : playerScores){
-            if (entry.first == playerName){
-                if (entry.second < score){
-                    entry.second = score;
-                }
-                playerFound = true;
-                break;
-            }
-        }
-        if (!playerFound) addNonExistingPlayerScore(playerName, score);
-    }   
 
     void Database::showDatabaseInfo(){
         std::cout << "Puntajes de los jugadores:" << std::endl;

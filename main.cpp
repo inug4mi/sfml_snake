@@ -20,7 +20,7 @@ int main()
     renderer.wsetFramerateLimit(12);
 
     // Base de datos
-    GEngine::Database db("SnakeDatabase.txt");
+    GEngine::Database db("snakedb1.txt");
     //.addNonExistingPlayerScore("Inug4mi",0);
 
     // variables
@@ -37,7 +37,7 @@ int main()
 
     /// ******************* ///
 
-    /// GAME BEHAVIOR STUFF ///
+    /// INGAME VARIABLES   ///
 
     // grid
     std::vector<sf::VertexArray> grid = shape.grid();
@@ -72,7 +72,9 @@ int main()
     if (text.good() == -1) return -1;
     sf::Text scoreText = text.write(std::to_string(variables.score), 300, Constants::TEXT_COLOR);
     
-    ///**********************///
+
+
+    /// END INGAME VARIABLES ///
 
     // main loop
     while (renderer.wisOpen())
@@ -96,6 +98,7 @@ int main()
         // drawing grid
         for (const sf::VertexArray line : grid) renderer.wdraw(line);
         
+
         // Guardar las posiciones anteriores de todas las partes de la serpiente
         std::vector<sf::Vector2f> previousPositions;
         for (auto& part : snakeBody)
@@ -141,8 +144,8 @@ int main()
                     snakeBody[i].setOutlineColor(sf::Color::White);
                     variables.pause = true;
                     variables.gameLost;
-                    db.addExistingPlayerScore("Inug4mi",variables.score);
-                    db.showDatabaseInfo();
+                    db.addPlayerScore("didib",variables.score);
+                    //db.showDatabaseInfo();
                     //std::cout << "Final score: " << variables.score << std::endl;
                 }
             }

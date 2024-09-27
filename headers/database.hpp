@@ -8,14 +8,11 @@ class Database {
 public:
     // Constructor que toma el nombre del archivo como parámetro
     Database(const std::string& filename);
-
     // Método para leer el archivo y obtener una lista de jugadores y puntajes
     std::vector<std::pair<std::string, int>> readDatabase();
 
     // Método para agregar una nueva entrada (jugador y puntaje)
-    void addNonExistingPlayerScore(const std::string& playerName, int score);
-
-    void addExistingPlayerScore(const std::string& playerName, int score);
+    void addPlayerScore(const std::string& playerName, int& score);
 
     // Método para crear un archivo de base de datos nuevo (si no existe)
     void createDatabase();

@@ -2,7 +2,14 @@
 #include <vector>
 #include <iostream>
 #include "constants.hpp"
-
+#include <SFML/Window.hpp>
+#include "renderer.hpp"
+#include "shape2D.hpp"
+#include "text.hpp"
+#include "collision.hpp"
+#include "variables.hpp"
+#include "database.hpp"
+//helo world ?
 class Game{
 public:
 	Game();
@@ -22,6 +29,14 @@ private:
 	// engine collision
 	GEngine::Collision collision;
 
+	GEngine::Database db;
+
+	sf::RectangleShape snakeHead;
+
+	sf::Text scoreText;
+
+	sf::Vector2f snakeHeadPosition;
+
 	//snake
 	std::vector<sf::RectangleShape> snakeBody;
 
@@ -31,9 +46,11 @@ private:
 	// direction variable
 	sf::Vector2f direction;
 
+	int text_w_offset = 85;
+
 	// grid
 	std::vector<sf::VertexArray> grid;
-	
+
 	void processEvents();
 
 	void update();
@@ -50,5 +67,5 @@ private:
 
 	void resetGame();
 
-	void run();
+	//void run();
 };

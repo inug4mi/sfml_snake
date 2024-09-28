@@ -1,14 +1,14 @@
 #include <SFML/Graphics.hpp>
-#include <vector>
-#include <iostream>
-#include "constants.hpp"
 #include <SFML/Window.hpp>
+#include "constants.hpp"
 #include "renderer.hpp"
 #include "shape2D.hpp"
 #include "text.hpp"
 #include "collision.hpp"
 #include "variables.hpp"
 #include "database.hpp"
+#include <vector>
+#include <iostream>
 //helo world ?
 class Game{
 public:
@@ -39,7 +39,7 @@ private:
 
 	//snake
 	std::vector<sf::RectangleShape> snakeBody;
-
+	
 	//aple
 	sf::RectangleShape apple;
 	
@@ -57,15 +57,13 @@ private:
 
 	void render();
 
-	void handleInput(sf::Keyboard::Key key);
+	//void handleInput(sf::Keyboard::Key key);
 
-	void moveSnake();
+	void checkCollisionWithApple(std::vector<sf::Vector2f>& previousPositions);
 
-	void checkCollisionWithApple();
+	void checkCollisionWithSelf(std::vector<sf::Vector2f>& previousPositions);
 
-	void checkCollisionWithSelf();
+	void crossBorder();
 
 	void resetGame();
-
-	//void run();
 };

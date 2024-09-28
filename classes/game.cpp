@@ -61,33 +61,12 @@ void Game::update(){
 	for (auto& part : snakeBody)
 		previousPositions.push_back(part.getPosition());
 	if (!variables.pause){
-		// mover cabeza en direccion
-		snakeBody[0].move(direction);
-		//std::cout << "xpos head: " <<snakeHeadPosition.x << std::endl;
-		// si la cabeza sobrepasa un muro, aparece del otro lado
-		if (snakeHeadPosition.x < 0) {
-			snakeBody[0].setPosition(Constants::SCREEN_WIDTH - Constants::SNAKE_SIZE, snakeHeadPosition.y);
-		} else if (snakeHeadPosition.x >= Constants::SCREEN_WIDTH) {
-			snakeBody[0].setPosition(0, snakeHeadPosition.y);
-		}
-
-		// Si la cabeza sobrepasa un muro en el eje Y, aparece del otro lado
-		if (snakeHeadPosition.y < 0) {
-			snakeBody[0].setPosition(snakeHeadPosition.x, Constants::SCREEN_HEIGHT - Constants::SNAKE_SIZE);
-		} else if (snakeHeadPosition.y >= Constants::SCREEN_HEIGHT) {
-			snakeBody[0].setPosition(snakeHeadPosition.x, 0);
-		}
-		
+		crossBorder(previousPositions);
 		// Hacer que cada parte siga a la anterior
 		for (size_t i = 1; i < snakeBody.size(); i++) {
 			snakeBody[i].setPosition(previousPositions[i - 1]);
 		}
-
-	}
-	
-	//crossBorder();
-	// colision entre cabeza y cualquier otra parte del cuerpo de la serpiente
-	if (!variables.pause){
+		// colision entre cabeza y cualquier otra parte del cuerpo de la serpiente
 		checkCollisionWithSelf(previousPositions);
 		// Colision entre serpiente y la manzana
 		checkCollisionWithApple(previousPositions);
@@ -164,7 +143,21 @@ void Game::checkCollisionWithSelf(std::vector<sf::Vector2f>& previousPositions){
 	}	
 }
 
-void Game::crossBorder(){
+void Game::crossBorder(std::vector<sf::Vector2f>& previousPositions){
+	// mover cabeza en direccion
+	snakeBody[0].move(direction);
+	//std::cout << "xpos head: " <<snakeHeadPosition.x << std::endl;
+	// si la cabeza sobrepasa un muro, aparece del otro lado
+	if (snakeHeadPosition.x < 0) {
+		snakeBody[0].setPosition(Constants::SCREEN_WIDTH - Constants::SNAKE_SIZE, snakeHeadPosition.y);
+	} else if (snakeHeadPosition.x >= Constants::SCREEN_WIDTH) {
+		snakeBody[0].setPosition(0, snakeHeadPosition.y);
+	}
 
-
+	// Si la cabeza sobrepasa un muro en el eje Y, aparece del otro lado
+	if (snakeHeadPosition.y < 0) {
+		snakeBody[0].setPosition(snakeHeadPosition.x, Constants::SCREEN_HEIGHT - Constants::SNAKE_SIZE);
+	} else if (snakeHeadPosition.y >= Constants::SCREEN_HEIGHT) {
+		snakeBody[0].setPosition(snakeHeadPosition.x, 0);
+	}
 }

@@ -63,7 +63,7 @@ private:
 
 	void checkCollisionWithSelf(std::vector<sf::Vector2f>& previousPositions);
 
-	void crossBorder();
+	void crossBorder(std::vector<sf::Vector2f>& previousPositions);
 
 	void resetGame();
 };

@@ -93,40 +93,40 @@ void Game::render(){
 
 void Game::checkCollisionWithApple(std::vector<sf::Vector2f>& previousPositions){
 	if (collision.between(snakeBody[0], apple)) {
-				sf::Vector2f lastPosition = previousPositions.back();
-				snakeBody.push_back(shape.square(
-					lastPosition.x,
-					lastPosition.y,
-					Constants::SNAKE_SIZE,
-					sf::Color(-109*snakeBody.size(),233-snakeBody.size()*2,109-snakeBody.size())
-				));
-				// score added
-				variables.score++;
-				// actualizar texto score
-				scoreText.setString("" + std::to_string(variables.score));
+		sf::Vector2f lastPosition = previousPositions.back();
+		snakeBody.push_back(shape.square(
+			lastPosition.x,
+			lastPosition.y,
+			Constants::SNAKE_SIZE,
+			sf::Color(-109*snakeBody.size(),233-snakeBody.size()*2,109-snakeBody.size())
+		));
+		// score added
+		variables.score++;
+		// actualizar texto score
+		scoreText.setString("" + std::to_string(variables.score));
 
-				// la manzana cambia de posicion
-				// la posicion NO PUEDE estar en una posicion del cuerpo de la serpiente
-				bool newApple = false;
-				while (!newApple){
-					newApple = true;
-					int newApplePosX = (int)variables.generateRandomInt(0,(int)((Constants::SCREEN_WIDTH/Constants::SNAKE_SIZE) - 1))*Constants::APPLE_SIZE;
-					int newApplePosY = (int)variables.generateRandomInt(0,(int)((Constants::SCREEN_WIDTH/Constants::SNAKE_SIZE) - 1))*Constants::APPLE_SIZE;
-					for (size_t i = 0; i < snakeBody.size(); i++) {
-						sf::Vector2f posi = snakeBody[i].getPosition();
-						//std::cout << "newApplePosX: " << newApplePosX << ", newApplePosY: " << newApplePosY << std::endl;
-						//std::cout << "BodyPartX: " << posi.x << ", BodyPartY: " << posi.y << std::endl;
-						if (newApplePosX == posi.x && newApplePosY == posi.y){
-							newApple = false;
-							break;
-						}
-					}
-					if (newApple) {
-						sf::Vector2f randomApplePosition(newApplePosX,newApplePosY);
-						apple.setPosition(randomApplePosition);
-					}
+		// la manzana cambia de posicion
+		// la posicion NO PUEDE estar en una posicion del cuerpo de la serpiente
+		bool newApple = false;
+		while (!newApple){
+			newApple = true;
+			int newApplePosX = (int)variables.generateRandomInt(0,(int)((Constants::SCREEN_WIDTH/Constants::SNAKE_SIZE) - 1))*Constants::APPLE_SIZE;
+			int newApplePosY = (int)variables.generateRandomInt(0,(int)((Constants::SCREEN_WIDTH/Constants::SNAKE_SIZE) - 1))*Constants::APPLE_SIZE;
+			for (size_t i = 0; i < snakeBody.size(); i++) {
+				sf::Vector2f posi = snakeBody[i].getPosition();
+				//std::cout << "newApplePosX: " << newApplePosX << ", newApplePosY: " << newApplePosY << std::endl;
+				//std::cout << "BodyPartX: " << posi.x << ", BodyPartY: " << posi.y << std::endl;
+				if (newApplePosX == posi.x && newApplePosY == posi.y){
+					newApple = false;
+					break;
 				}
 			}
+			if (newApple) {
+				sf::Vector2f randomApplePosition(newApplePosX,newApplePosY);
+				apple.setPosition(randomApplePosition);
+			}
+		}
+	}
 }
 
 void Game::checkCollisionWithSelf(std::vector<sf::Vector2f>& previousPositions){

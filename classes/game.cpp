@@ -1,14 +1,16 @@
 #include "game.hpp"
 
 Game::Game():renderer(Constants::SCREEN_WIDTH, Constants::SCREEN_HEIGHT, "SFML Snake"),
-variables(), shape(), text(), collision(), db("snakedb1.txt"), direction(0.0f, 0.0f){
+variables(), shape(), text(), collision(), db("snakedb1.txt"), soundManager(), direction(0.0f, 0.0f){
 	
 	renderer.wsetFramerateLimit(12);
 
 	grid = shape.grid();
 
-	// variables
-	text_w_offset = 85; // offset en texto del puntaje
+	soundManager.loadMusic("assets/music/gtasa.mp3");
+	soundManager.loadSound("coin","assets/sounds/pickupCoin.wav");
+	soundManager.loadSound("powerUp","assets/sounds/powerUp.wav");
+	soundManager.loadSound("hitSelf","assets/sounds/hitSelf.wav");
 
 	// snake head
 	snakeHead = shape.square(
@@ -37,7 +39,10 @@ variables(), shape(), text(), collision(), db("snakedb1.txt"), direction(0.0f, 0
 		std::cerr << "Error loading font" << std::endl;
 		// Aquí podrías manejar el error
 	}
-	scoreText = text.write(std::to_string(variables.score), 300, Constants::TEXT_COLOR);		
+	scoreText = text.write(std::to_string(variables.score), 300, Constants::TEXT_COLOR);	
+
+	// Reproducir la música de fondo
+    soundManager.setMusicVolume(5.0f); // Ajustar el volumen de la música
 }
 
 void Game::run(){
@@ -53,6 +58,11 @@ void Game::processEvents(){
 }
 
 void Game::update(){
+	if (variables.score > 0 && !activeMusic){ 
+		soundManager.playMusic();
+		activeMusic = true;
+	}
+		
 	if (variables.score > 9) text_w_offset = 170;
 	scoreText.setPosition(Constants::SCREEN_WIDTH/2 - text_w_offset, 10);
 	
@@ -100,11 +110,12 @@ void Game::checkCollisionWithApple(std::vector<sf::Vector2f>& previousPositions)
 			Constants::SNAKE_SIZE,
 			sf::Color(-109*snakeBody.size(),233-snakeBody.size()*2,109-snakeBody.size())
 		));
+		soundManager.playSound("coin");
 		// score added
 		variables.score++;
+		if (variables.score%10 == 0) soundManager.playSound("powerUp");
 		// actualizar texto score
-		scoreText.setString("" + std::to_string(variables.score));
-
+		scoreText.setString(std::to_string(variables.score));
 		// la manzana cambia de posicion
 		// la posicion NO PUEDE estar en una posicion del cuerpo de la serpiente
 		bool newApple = false;
@@ -132,8 +143,10 @@ void Game::checkCollisionWithApple(std::vector<sf::Vector2f>& previousPositions)
 void Game::checkCollisionWithSelf(std::vector<sf::Vector2f>& previousPositions){
 	for (int i = 1; i < snakeBody.size(); i++){
 		if (collision.between(snakeBody[0], snakeBody[i])){
+			soundManager.playSound("hitSelf");
 			snakeBody[i].setFillColor(sf::Color::Yellow);
 			snakeBody[i].setOutlineColor(sf::Color::White);
+			soundManager.pauseMusic();
 			variables.pause = true;
 			variables.gameLost;
 			db.addPlayerScore("Inug4mi",variables.score);

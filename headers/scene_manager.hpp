@@ -10,16 +10,19 @@
 #include "database.hpp"
 #include "sound_manager.hpp"
 #include "game_state.hpp"
+#include "main_menu_window.hpp"
 #include <vector>
 #include <iostream>
 
 class SceneManager{
 public:
     SceneManager();
+	~SceneManager();
 
     // engine window
 	GEngine::Renderer renderer;
 
+	GameState currentState;
 	// variables
 	GEngine::Variables variables;
 
@@ -34,10 +37,11 @@ public:
 
 	// engine collision
 	GEngine::Collision collision;
-
     //engine database
 	GEngine::Database db;
 
-    SceneSelector();
+	MainMenuWindow mainMenuWindow;
+
+    void SceneSelector();
 };
 

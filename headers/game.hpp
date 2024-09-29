@@ -41,7 +41,7 @@ private:
 	void handlePlaying();
 
 	GameState currentState;
-
+	
 	//void handleInput(sf::Keyboard::Key key);
 
 	void checkCollisionWithApple(std::vector<sf::Vector2f>& previousPositions);

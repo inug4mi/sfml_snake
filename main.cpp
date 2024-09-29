@@ -1,7 +1,7 @@
-#include "game.hpp"
 
+#include "scene_manager.hpp"
 int main(){
-    Game game;
-    game.run();
+    SceneManager sceneManager;
+    sceneManager.SceneSelector();
     return 0;
 }

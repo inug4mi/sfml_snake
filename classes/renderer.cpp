@@ -26,7 +26,7 @@ namespace GEngine {
         window.setFramerateLimit(limit); // Set the framerate limit
     }
 
-    void Renderer::wpollEvents(GEngine::Variables &variables, sf::Vector2f &direction) {
+    void Renderer::wpollEventsPlaying(GEngine::Variables &variables, sf::Vector2f &direction) {
     
         while (window.pollEvent(event))
         {
@@ -74,6 +74,22 @@ namespace GEngine {
         
                     default:
                         break;
+                }
+            }
+        }
+    }
+
+    void Renderer::wpollEventsMainMenu(GEngine::Variables &variables, GameState &currentState) {
+    
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
+            
+            if (event.type == sf::Event::KeyPressed)
+            {
+                if (event.key.code == sf::Keyboard::Space){
+                    currentState = GameState::Playing;
                 }
             }
         }

@@ -1,7 +1,7 @@
 #include "game.hpp"
 
 Game::Game():renderer(Constants::SCREEN_WIDTH, Constants::SCREEN_HEIGHT, "SFML Snake"),
-variables(), shape(), text(), collision(), db("snakedb1.txt"), soundManager(), direction(0.0f, 0.0f){
+variables(), shape(), text(), collision(), db("snakedb1.txt"), soundManager(), currentState(GameState::MainMenu), direction(0.0f, 0.0f){
 	
 	renderer.wsetFramerateLimit(12);
 
@@ -47,15 +47,30 @@ variables(), shape(), text(), collision(), db("snakedb1.txt"), soundManager(), d
 
 void Game::run(){
 	while (renderer.wisOpen()){
-		processEvents();
-		update();
-		render();
+		
+		switch (currentState) {
+			case GameState::MainMenu:
+				handleMainMenu();
+				break;
+			case GameState::Playing:
+				handlePlaying();
+				break;
+		}
+
 	}
 }
 
-void Game::processEvents(){
-	renderer.wpollEvents(variables, direction);
+void Game::handleMainMenu(){
+	renderer.wpollEventsMainMenu(variables, currentState);
+	renderer.wclear(Constants::BG_COLOR);
 }
+
+void Game::handlePlaying(){
+	renderer.wpollEventsPlaying(variables, direction);
+	update();
+	render();
+}
+
 
 void Game::update(){
 	if (variables.score > 0 && !activeMusic){ 

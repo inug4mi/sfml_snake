@@ -9,9 +9,12 @@
 #include "variables.hpp"
 #include "database.hpp"
 #include "sound_manager.hpp"
+#include "game_state.hpp"
 #include <vector>
 #include <iostream>
-//helo world ?
+
+
+
 class Game{
 public:
 	Game();
@@ -55,11 +58,15 @@ private:
 	// grid
 	std::vector<sf::VertexArray> grid;
 
-	void processEvents();
-
 	void update();
 
 	void render();
+
+	void handleMainMenu();
+	void handlePlaying();
+	void handleGameOver();
+
+	GameState currentState;
 
 	//void handleInput(sf::Keyboard::Key key);
 

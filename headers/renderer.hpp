@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include "variables.hpp"
-
+#include "game_state.hpp"
 namespace GEngine {
     class Renderer {
     public:
@@ -24,8 +24,8 @@ namespace GEngine {
             window.draw(object);
         }
 
-        void wpollEvents(GEngine::Variables &variables, sf::Vector2f &direction);   
-
+        void wpollEventsPlaying(GEngine::Variables &variables, sf::Vector2f &direction);   
+        void wpollEventsMainMenu(GEngine::Variables &variables, GameState &currentState);
         // hacer privado variable window
         sf::RenderWindow window;  
         sf::Event event;         

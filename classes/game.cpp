@@ -62,7 +62,9 @@ void Game::run(){
 
 void Game::handleMainMenu(){
 	renderer.wpollEventsMainMenu(variables, currentState);
+	//std::cout << "mainMenu" << std::endl;
 	renderer.wclear(Constants::BG_COLOR);
+	renderer.wdisplay();
 }
 
 void Game::handlePlaying(){

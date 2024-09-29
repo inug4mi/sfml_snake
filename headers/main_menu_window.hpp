@@ -10,7 +10,7 @@
 class MainMenuWindow {
 public:
     MainMenuWindow(
-        //GEngine::Renderer& renderer,          // Pass by reference
+        GEngine::Renderer& renderer         // Pass by reference
         //GEngine::Variables& variables,
         //GEngine::Shape2D& shape,
         //GEngine::Text& text,
@@ -20,7 +20,7 @@ public:
         //GameState& currentState
     );
 	// engine window
-	//GEngine::Renderer renderer;
+	GEngine::Renderer& renderer;
 
 	GameState currentState;
 	// variables
@@ -41,5 +41,5 @@ public:
 	GEngine::Database db;
 
     sf::Text mainMenuText;
-    void run(GEngine::Renderer& renderer);
+    void run();
 };

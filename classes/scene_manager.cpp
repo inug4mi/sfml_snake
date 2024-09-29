@@ -9,7 +9,7 @@ SceneManager::SceneManager()
       db("snakedb1.txt"), 
       soundManager(), 
       currentState(GameState::MainMenu),
-      mainMenuWindow() {
+      mainMenuWindow(renderer) {
     
     renderer.wsetFramerateLimit(12);
 }
@@ -18,7 +18,7 @@ void SceneManager::SceneSelector() {
     while (renderer.wisOpen()) {
         switch (currentState) {
             case GameState::MainMenu:
-                mainMenuWindow.run(renderer);
+                mainMenuWindow.run();
                 break;
             case GameState::Playing:
                 // Handle game-playing logic

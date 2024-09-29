@@ -1,8 +1,8 @@
 #include "main_menu_window.hpp"
 
-MainMenuWindow::MainMenuWindow(): 
-        //renderer(Constants::SCREEN_WIDTH, Constants::SCREEN_HEIGHT, "SFML Snake"),
-      variables(), 
+MainMenuWindow::MainMenuWindow(GEngine::Renderer& _renderer): 
+      renderer(_renderer),
+	  variables(), 
       shape(), 
       text(), 
       collision(), 
@@ -13,10 +13,11 @@ MainMenuWindow::MainMenuWindow():
 		std::cerr << "Error loading font" << std::endl;
 		// Aquí podrías manejar el error
 	}
+	
  	mainMenuText = text.write("SFMLSNAKE", 100, sf::Color::White);    // Initialization or setup logic, if needed
 }
 
-void MainMenuWindow::run(GEngine::Renderer& renderer) {
+void MainMenuWindow::run() {
 	renderer.wpollEventsMainMenu(variables, currentState);
 	
 	// UPDATE ///

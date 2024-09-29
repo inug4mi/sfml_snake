@@ -3,6 +3,8 @@
 Game::Game():renderer(Constants::SCREEN_WIDTH, Constants::SCREEN_HEIGHT, "SFML Snake"),
 variables(), shape(), text(), collision(), db("snakedb1.txt"), soundManager(), currentState(GameState::MainMenu), direction(0.0f, 0.0f){
 	
+	/// INSTANTIATE ONCE IN CLASS APARAT ///
+
 	renderer.wsetFramerateLimit(12);
 
 	grid = shape.grid();
@@ -40,37 +42,30 @@ variables(), shape(), text(), collision(), db("snakedb1.txt"), soundManager(), c
 		// Aquí podrías manejar el error
 	}
 	scoreText = text.write(std::to_string(variables.score), 300, Constants::TEXT_COLOR);	
-
+ 	mainMenuText = text.write("SFMLSNAKE", 100, sf::Color::White);
 	// Reproducir la música de fondo
     soundManager.setMusicVolume(5.0f); // Ajustar el volumen de la música
-}
 
-void Game::run(){
-	while (renderer.wisOpen()){
-		
-		switch (currentState) {
-			case GameState::MainMenu:
-				handleMainMenu();
-				break;
-			case GameState::Playing:
-				handlePlaying();
-				break;
-		}
-
-	}
-}
-
-void Game::handleMainMenu(){
-	renderer.wpollEventsMainMenu(variables, currentState);
-	//std::cout << "mainMenu" << std::endl;
-	renderer.wclear(Constants::BG_COLOR);
-	renderer.wdisplay();
+	/// INSTANTIATE ONCE IN CLASS APARAT ///
 }
 
 void Game::handlePlaying(){
 	renderer.wpollEventsPlaying(variables, direction);
 	update();
 	render();
+}
+
+
+void Game::handleMainMenu(){
+	renderer.wpollEventsMainMenu(variables, currentState);
+	
+	// UPDATE ///
+	scoreText.setPosition(Constants::SCREEN_WIDTH/2, 10);
+
+	// RENDER ///
+	renderer.wclear(Constants::BG_COLOR);
+    renderer.wdraw(mainMenuText);
+	renderer.wdisplay();
 }
 
 

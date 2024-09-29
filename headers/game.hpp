@@ -18,36 +18,12 @@
 class Game{
 public:
 	Game();
-	void run();
 
 private:
-	GEngine::Renderer renderer;
-	// variables
-	GEngine::Variables variables;
-
-	// engine shape
-	GEngine::Shape2D shape;
-
-	// engine text
-	GEngine::Text text;
-
-	GEngine::SoundManager soundManager;
-
-	// engine collision
-	GEngine::Collision collision;
-
-	GEngine::Database db;
-
-	sf::RectangleShape snakeHead;
-
-	sf::Text scoreText;
-
-	sf::Vector2f snakeHeadPosition;
-
 	//snake
 	std::vector<sf::RectangleShape> snakeBody;
 	
-	//aple
+	//apple
 	sf::RectangleShape apple;
 	
 	// direction variable
@@ -62,9 +38,7 @@ private:
 
 	void render();
 
-	void handleMainMenu();
 	void handlePlaying();
-	void handleGameOver();
 
 	GameState currentState;
 

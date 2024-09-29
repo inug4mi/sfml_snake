@@ -11,15 +11,12 @@
 #include "sound_manager.hpp"
 #include "game_state.hpp"
 #include "main_menu_window.hpp"
-#include <vector>
-#include <iostream>
 
 class SceneManager{
 public:
-    SceneManager();
-	~SceneManager();
+	SceneManager();
 
-    // engine window
+	// engine window
 	GEngine::Renderer renderer;
 
 	GameState currentState;
@@ -32,16 +29,17 @@ public:
 	// engine text
 	GEngine::Text text;
 
-    // engine sound
+	// engine sound
 	GEngine::SoundManager soundManager;
 
 	// engine collision
 	GEngine::Collision collision;
-    //engine database
+	//engine database
 	GEngine::Database db;
 
 	MainMenuWindow mainMenuWindow;
 
-    void SceneSelector();
+	void SceneSelector();
 };
+
 

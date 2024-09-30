@@ -1,7 +1,6 @@
-
 #include "scene_manager.hpp"
 int main(){
-    SceneManager sceneManager;
+    GEngine::SceneManager sceneManager;
     sceneManager.SceneSelector();
     return 0;
 }

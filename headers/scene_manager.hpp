@@ -12,34 +12,34 @@
 #include "game_state.hpp"
 #include "main_menu_window.hpp"
 
-class SceneManager{
-public:
-	SceneManager();
+namespace GEngine{
+	class SceneManager{
+	public:
+		SceneManager();
 
-	// engine window
-	GEngine::Renderer renderer;
+		// engine window
+		Renderer renderer;
 
-	GameState currentState;
-	// variables
-	GEngine::Variables variables;
+		GameState currentState;
+		// variables
+		Variables variables;
 
-	// engine shape
-	GEngine::Shape2D shape;
+		// engine shape
+		Shape2D shape;
 
-	// engine text
-	GEngine::Text text;
+		// engine text
+		Text text;
 
-	// engine sound
-	GEngine::SoundManager soundManager;
+		// engine sound
+		SoundManager soundManager;
 
-	// engine collision
-	GEngine::Collision collision;
-	//engine database
-	GEngine::Database db;
+		// engine collision
+		Collision collision;
+		//engine database
+		Database db;
 
-	MainMenuWindow mainMenuWindow;
+		MainMenuWindow mainMenuWindow;
 
-	void SceneSelector();
-};
-
-
+		void SceneSelector();
+	};
+}

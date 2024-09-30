@@ -7,17 +7,11 @@
 #include "database.hpp"
 #include "sound_manager.hpp"
 #include "game_state.hpp"
+
 class MainMenuWindow {
 public:
     MainMenuWindow(
         GEngine::Renderer& renderer         // Pass by reference
-        //GEngine::Variables& variables,
-        //GEngine::Shape2D& shape,
-        //GEngine::Text& text,
-        //GEngine::Collision& collision,
-        //GEngine::Database& db,
-        //GEngine::SoundManager& soundManager,
-        //GameState& currentState
     );
 	// engine window
 	GEngine::Renderer& renderer;
@@ -41,5 +35,6 @@ public:
 	GEngine::Database db;
 
     sf::Text mainMenuText;
+
     void run();
 };

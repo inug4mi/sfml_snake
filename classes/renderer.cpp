@@ -3,7 +3,7 @@
 namespace GEngine {
     Renderer::Renderer(int width, int height, const std::string &title) {
         window.create(sf::VideoMode(width, height), title, sf::Style::Close);
-        window.setFramerateLimit(60); // Default frame limit
+        //window.setFramerateLimit(60); // Default frame limit
     }
 
     void Renderer::wclear(const sf::Color &color) {

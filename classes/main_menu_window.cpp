@@ -15,6 +15,7 @@ MainMenuWindow::MainMenuWindow(GEngine::Renderer& _renderer):
 	}
 	
  	mainMenuText = text.write("SFMLSNAKE", 100, sf::Color::White);    // Initialization or setup logic, if needed
+	renderer.wsetFramerateLimit(12);
 }
 
 void MainMenuWindow::run() {

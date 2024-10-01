@@ -1,6 +1,6 @@
 #include "main_menu_window.hpp"
 
-MainMenuWindow::MainMenuWindow(GEngine::Renderer &_renderer):
+MainMenuWindow::MainMenuWindow(GEngine::Renderer &_renderer, GameState &_currentState):
       renderer(_renderer),
 	  variables(), 
       shape(), 
@@ -8,7 +8,7 @@ MainMenuWindow::MainMenuWindow(GEngine::Renderer &_renderer):
       collision(), 
       db("snakedb1.txt"), 
       soundManager(), 
-      currentState(GameState::MainMenu){
+      currentState(_currentState){
 	if (text.good() == -1) {
 		std::cerr << "Error loading font" << std::endl;
 		// Aquí podrías manejar el error
@@ -41,7 +41,7 @@ void MainMenuWindow::run() {
 					// Cambiar el color del texto como indicación de que fue clicado
 					startText.setFillColor(sf::Color::Red);
 					std::cout << "Texto clicado!" << std::endl;
-                    //currentState = GameState::Playing;
+                    currentState = GameState::Playing;
 				}
 			}
 		}

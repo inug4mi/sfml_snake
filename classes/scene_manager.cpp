@@ -8,8 +8,8 @@ namespace GEngine{
         collision(), 
         db("snakedb1.txt"), 
         soundManager(), 
-        currentState(GameState::Playing),
-        mainMenuWindow(renderer),
+        currentState(GameState::MainMenu),
+        mainMenuWindow(renderer, currentState),
         game(renderer){
     }
 

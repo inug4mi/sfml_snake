@@ -11,12 +11,13 @@
 class MainMenuWindow {
 public:
     MainMenuWindow(
-        GEngine::Renderer &renderer         // Pass by reference
+        GEngine::Renderer &renderer,         // Pass by reference
+    	GameState &currentState
     );
 	// engine window
 	GEngine::Renderer &renderer;
 
-	GameState currentState;
+	GameState &currentState;
 	// variables
 	GEngine::Variables variables;
 

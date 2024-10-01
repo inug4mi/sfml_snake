@@ -12,6 +12,7 @@
 #include "game_state.hpp"
 #include "main_menu_window.hpp"
 #include "game.hpp"
+#include "game_over_window.hpp"
 
 namespace GEngine{
 	class SceneManager{
@@ -41,6 +42,7 @@ namespace GEngine{
 
 		MainMenuWindow mainMenuWindow;
         Game game;
+        GameOverWindow gameOverWindow;
 
 		void SceneSelector();
 	};

@@ -15,12 +15,13 @@
 
 class Game{
 public:
-	Game(GEngine::Renderer &renderer);
+	Game(GEngine::Renderer &renderer, GameState &currentState);
 	void handlePlaying();
+	void restart();
 private:
 	GEngine::Renderer &renderer;
 
-	GameState currentState;
+	GameState &currentState;
 	// variables
 	GEngine::Variables variables;
 
@@ -64,8 +65,6 @@ private:
 	void checkCollisionWithSelf(std::vector<sf::Vector2f>& previousPositions);
 
 	void crossBorder(std::vector<sf::Vector2f>& previousPositions);
-
-	void resetGame();
 
 
 };

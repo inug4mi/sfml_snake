@@ -10,7 +10,10 @@ namespace GEngine{
         soundManager(), 
         currentState(GameState::MainMenu),
         mainMenuWindow(renderer, currentState),
-        game(renderer){
+        game(renderer, currentState),
+        gameOverWindow(renderer, currentState){
+
+        renderer.wsetFramerateLimit(12);
     }
 
     void SceneManager::SceneSelector() {
@@ -21,6 +24,10 @@ namespace GEngine{
                     break;
                 case GameState::Playing:
                     game.handlePlaying();
+                    break;
+                case GameState::GameOver:
+                    game.restart();
+                    gameOverWindow.run();
                     break;
             }
         }

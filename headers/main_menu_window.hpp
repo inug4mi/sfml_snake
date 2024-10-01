@@ -35,8 +35,6 @@ public:
 	//engine database
 	GEngine::Database db;
 
-    sf::Vector2f direction;
-
     sf::Text startText;
     sf::Text quitText;
 

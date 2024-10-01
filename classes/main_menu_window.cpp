@@ -19,7 +19,6 @@ MainMenuWindow::MainMenuWindow(GEngine::Renderer &_renderer, GameState &_current
 
  	quitText = text.write("QUIT GAME", 35, sf::Color::White);    // Initialization or setup logic, if needed
 	quitText.setPosition(115,270);
-	renderer.wsetFramerateLimit(64);
 }
 
 void MainMenuWindow::run() {

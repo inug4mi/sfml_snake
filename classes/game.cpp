@@ -1,6 +1,6 @@
 #include "game.hpp"
 
-Game::Game(GEngine::Renderer &_renderer):
+Game::Game(GEngine::Renderer &_renderer, GameState &_currentState):
 	renderer(_renderer),
 	variables(),
     shape(),
@@ -8,12 +8,10 @@ Game::Game(GEngine::Renderer &_renderer):
     collision(),
     db("snakedb1.txt"),
     soundManager(),
-    currentState(GameState::MainMenu),
+    currentState(_currentState),
     direction(0.0f, 0.0f){
 	
 	/// INSTANTIATE ONCE IN CLASS APARAT ///
-
-	renderer.wsetFramerateLimit(12);
 
 	grid = shape.grid();
 
@@ -152,10 +150,11 @@ void Game::checkCollisionWithSelf(std::vector<sf::Vector2f>& previousPositions){
 			soundManager.playSound("hitSelf");
 			snakeBody[i].setFillColor(sf::Color::Yellow);
 			snakeBody[i].setOutlineColor(sf::Color::White);
-			soundManager.pauseMusic();
+			soundManager.stopMusic();
 			variables.pause = true;
 			variables.gameLost;
 			db.addPlayerScore("Inug4mi",variables.score);
+            currentState = GameState::GameOver;
 			//db.showDatabaseInfo();
 			//std::cout << "Final score: " << variables.score << std::endl;
 		}
@@ -179,4 +178,25 @@ void Game::crossBorder(std::vector<sf::Vector2f>& previousPositions){
 	} else if (snakeHeadPosition.y >= Constants::SCREEN_HEIGHT) {
 		snakeBody[0].setPosition(snakeHeadPosition.x, 0);
 	}
+}
+
+void Game::restart(){
+	snakeBody.clear();
+	// snake head+body vector
+	snakeBody.push_back(snakeHead);
+	snakeHeadPosition = sf::Vector2f(
+        Constants::SNAKE_SIZE * Constants::SNAKE_Xi,
+		Constants::SNAKE_SIZE * Constants::SNAKE_Yi
+    );
+    direction = sf::Vector2f(0.0f, 0.0f);
+	apple.setPosition(
+        Constants::APPLE_SIZE * Constants::APPLE_Xi,
+		Constants::APPLE_SIZE * Constants::APPLE_Yi
+    );
+    scoreText.setString("0");
+    variables.score = 0;
+    variables.gameLost = false;
+    variables.pause = false;
+    activeMusic = false;
+	text_w_offset = 85;
 }

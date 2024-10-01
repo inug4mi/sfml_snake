@@ -15,10 +15,10 @@ MainMenuWindow::MainMenuWindow(GEngine::Renderer &_renderer, GameState &_current
 	}
 	
  	startText = text.write("START GAME", 35, sf::Color::White);    // Initialization or setup logic, if needed
-	startText.setPosition(102,90);
+	startText.setPosition(Constants::SCREEN_WIDTH/2 - startText.getGlobalBounds().width/2,90);
 
  	quitText = text.write("QUIT GAME", 35, sf::Color::White);    // Initialization or setup logic, if needed
-	quitText.setPosition(115,270);
+	quitText.setPosition(Constants::SCREEN_WIDTH/2 - quitText.getGlobalBounds().width/2,270);
 }
 
 void MainMenuWindow::run() {

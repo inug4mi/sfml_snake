@@ -40,10 +40,13 @@ void MainMenuWindow::run() {
 				if (text.isTextClicked(startText, mousePos)) {
 					// Cambiar el color del texto como indicación de que fue clicado
 					startText.setFillColor(sf::Color::Red);
-					std::cout << "Texto clicado!" << std::endl;
                     currentState = GameState::Playing;
 				}
-			}
+                else if (text.isTextClicked(quitText, mousePos)) {
+                    quitText.setFillColor(sf::Color::Red);
+                    renderer.window.close();
+				}
+            }
 		}
 	}
 	// UPDATE ///

@@ -1,5 +1,4 @@
 #include "scene_manager.hpp"
-
 namespace GEngine{
     SceneManager::SceneManager() : 
         renderer(Constants::SCREEN_WIDTH, Constants::SCREEN_HEIGHT, "SFML Snake"),
@@ -9,8 +8,9 @@ namespace GEngine{
         collision(), 
         db("snakedb1.txt"), 
         soundManager(), 
-        currentState(GameState::MainMenu),
-        mainMenuWindow(renderer){
+        currentState(GameState::Playing),
+        mainMenuWindow(renderer),
+        game(renderer){
     }
 
     void SceneManager::SceneSelector() {
@@ -20,7 +20,7 @@ namespace GEngine{
                     mainMenuWindow.run();
                     break;
                 case GameState::Playing:
-                    //game.handlePlaying();
+                    game.handlePlaying();
                     break;
             }
         }

@@ -11,7 +11,7 @@
 #include "sound_manager.hpp"
 #include "game_state.hpp"
 #include "main_menu_window.hpp"
-//#include "game.hpp"
+#include "game.hpp"
 
 namespace GEngine{
 	class SceneManager{
@@ -40,7 +40,7 @@ namespace GEngine{
 		Database db;
 
 		MainMenuWindow mainMenuWindow;
-        //Game game;
+        Game game;
 
 		void SceneSelector();
 	};

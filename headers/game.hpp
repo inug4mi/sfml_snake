@@ -16,6 +16,7 @@
 class Game{
 public:
 	Game(GEngine::Renderer &renderer);
+	void handlePlaying();
 private:
 	GEngine::Renderer &renderer;
 
@@ -66,5 +67,5 @@ private:
 
 	void resetGame();
 
-	void handlePlaying();
+
 };

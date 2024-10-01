@@ -13,19 +13,37 @@
 #include <vector>
 #include <iostream>
 
-
-
 class Game{
 public:
-	Game();
-
+	Game(GEngine::Renderer &renderer);
 private:
+	GEngine::Renderer &renderer;
+
+	GameState currentState;
+	// variables
+	GEngine::Variables variables;
+
+	// engine shape
+	GEngine::Shape2D shape;
+
+	// engine text
+	GEngine::Text text;
+
+	// engine sound
+	GEngine::SoundManager soundManager;
+
+	// engine collision
+	GEngine::Collision collision;
+	//engine database
+	GEngine::Database db;
 	//snake
 	std::vector<sf::RectangleShape> snakeBody;
-	
+	sf::RectangleShape snakeHead;
 	//apple
 	sf::RectangleShape apple;
-	
+	sf::Text scoreText;
+	sf::Text mainMenuText;
+    sf::Vector2f snakeHeadPosition;
 	// direction variable
 	sf::Vector2f direction;
 
@@ -37,10 +55,6 @@ private:
 	void update();
 
 	void render();
-
-	void handlePlaying();
-
-	GameState currentState;
 	
 	//void handleInput(sf::Keyboard::Key key);
 
@@ -51,4 +65,6 @@ private:
 	void crossBorder(std::vector<sf::Vector2f>& previousPositions);
 
 	void resetGame();
+
+	void handlePlaying();
 };

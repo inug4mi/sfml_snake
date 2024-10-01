@@ -10,7 +10,7 @@ namespace GEngine{
         db("snakedb1.txt"), 
         soundManager(), 
         currentState(GameState::MainMenu),
-        mainMenuWindow(renderer) {
+        mainMenuWindow(renderer){
     }
 
     void SceneManager::SceneSelector() {
@@ -20,7 +20,7 @@ namespace GEngine{
                     mainMenuWindow.run();
                     break;
                 case GameState::Playing:
-                    // Handle game-playing logic
+                    //game.handlePlaying();
                     break;
             }
         }

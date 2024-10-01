@@ -11,10 +11,10 @@
 class MainMenuWindow {
 public:
     MainMenuWindow(
-        GEngine::Renderer& renderer         // Pass by reference
+        GEngine::Renderer &renderer         // Pass by reference
     );
 	// engine window
-	GEngine::Renderer& renderer;
+	GEngine::Renderer &renderer;
 
 	GameState currentState;
 	// variables
@@ -34,7 +34,10 @@ public:
 	//engine database
 	GEngine::Database db;
 
-    sf::Text mainMenuText;
+    sf::Vector2f direction;
+
+    sf::Text startText;
+    sf::Text quitText;
 
     void run();
 };

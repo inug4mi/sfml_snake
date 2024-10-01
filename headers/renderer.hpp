@@ -4,6 +4,7 @@
 #include <string>
 #include "variables.hpp"
 #include "game_state.hpp"
+#include "text.hpp"
 namespace GEngine {
     class Renderer {
     public:
@@ -25,7 +26,7 @@ namespace GEngine {
         }
 
         void wpollEventsPlaying(GEngine::Variables &variables, sf::Vector2f &direction);   
-        void wpollEventsMainMenu(GEngine::Variables &variables, GameState &currentState);
+        //void wpollEventsMainMenu(GEngine::Variables &variables, GameState &currentState, Text &text, sf::Text &startText);
         // hacer privado variable window
         sf::RenderWindow window;  
         sf::Event event;         

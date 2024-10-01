@@ -8,5 +8,7 @@ namespace GEngine{
         sf::Font font;
         int good();
         sf::Text write(std::string text, int size, sf::Color color);
+
+        bool isTextClicked(const sf::Text& text, const sf::Vector2i& mousePos); 
     };
 }

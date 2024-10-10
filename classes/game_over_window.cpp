@@ -18,10 +18,10 @@ GameOverWindow::GameOverWindow(GEngine::Renderer &_renderer, GameState &_current
     }
 
     retryText = text.write("TRY AGAIN", 35, sf::Color::White);    // Initialization or setup logic, if needed
-    retryText.setPosition(120,90);
+    retryText.setPosition(Constants::SCREEN_WIDTH/2 - retryText.getGlobalBounds().width/2,90);
 
     quitText = text.write("QUIT GAME", 35, sf::Color::White);    // Initialization or setup logic, if needed
-    quitText.setPosition(115,270);
+    quitText.setPosition(Constants::SCREEN_WIDTH/2 - quitText.getGlobalBounds().width/2,270);
 }
 
 void GameOverWindow::run() {

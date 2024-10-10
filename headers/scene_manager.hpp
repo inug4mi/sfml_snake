@@ -22,14 +22,16 @@ namespace GEngine{
 		// engine window
 		Renderer renderer;
 
+		// Estado global del juego
 		GameState currentState;
-		// variables
+
+		// global variables
 		Variables variables;
 
-		// engine shape
+		// Formas
 		Shape2D shape;
 
-		// engine text
+		// Textos
 		Text text;
 
 		// engine sound
@@ -37,6 +39,7 @@ namespace GEngine{
 
 		// engine collision
 		Collision collision;
+		
 		//engine database
 		Database db;
 

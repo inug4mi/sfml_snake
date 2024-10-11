@@ -17,4 +17,9 @@ namespace GEngine{
         new_text.setString(text);
         return new_text;
     }
+    bool Text::isTextClicked(const sf::Text& text, const sf::Vector2i& mousePos) {
+        // Convertir las coordenadas del mouse al sistema de coordenadas de SFML
+        sf::FloatRect textBounds = text.getGlobalBounds();
+        return textBounds.contains(static_cast<sf::Vector2f>(mousePos));
+    }
 }

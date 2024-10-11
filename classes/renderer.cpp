@@ -1,9 +1,10 @@
 #include "renderer.hpp"
 #include "constants.hpp"
+#include <iostream>
 namespace GEngine {
     Renderer::Renderer(int width, int height, const std::string &title) {
         window.create(sf::VideoMode(width, height), title, sf::Style::Close);
-        window.setFramerateLimit(60); // Default frame limit
+        //window.setFramerateLimit(60); // Default frame limit
     }
 
     void Renderer::wclear(const sf::Color &color) {
@@ -26,7 +27,35 @@ namespace GEngine {
         window.setFramerateLimit(limit); // Set the framerate limit
     }
 
-    void Renderer::wpollEvents(GEngine::Variables &variables, sf::Vector2f &direction) {
+//    void Renderer::wpollEventsMainMenu(GEngine::Variables &variables, GameState &currentState, Text &text, sf::Text &startText){
+//      while (window.pollEvent(event))
+//          {
+//            if (event.type == sf::Event::Closed)
+//                window.close();
+//
+//            if (event.type == sf::Event::KeyPressed)
+//            {
+//            }
+//            if (event.type == sf::Event::MouseButtonPressed) {
+//                std::cout << "mouse pressed" << std::endl;
+//
+//                if (event.mouseButton.button == sf::Mouse::Left) {
+//                    // Obtener las coordenadas del mouse
+//                    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+//                    std::cout << "left clicked" << std::endl;
+//                    // Verificar si el texto fue clicado
+//                    if (text.isTextClicked(startText, mousePos)) {
+//                        // Cambiar el color del texto como indicación de que fue clicado
+//                        startText.setFillColor(sf::Color::Red);
+//                        std::cout << "Texto clicado!" << std::endl;
+//                    }
+//                }
+//            }
+//
+//        }
+//    }
+
+    void Renderer::wpollEventsPlaying(GEngine::Variables &variables, sf::Vector2f &direction) {
     
         while (window.pollEvent(event))
         {
@@ -78,5 +107,4 @@ namespace GEngine {
             }
         }
     }
-
 }

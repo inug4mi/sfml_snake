@@ -5,7 +5,7 @@ namespace GEngine{
     public:
         Variables();  // Constructor to initialize default values
         std::random_device rd;
-        std::mt19937 gen;
+        //std::mt19937 gen;
         bool pause;
         bool gameLost;
         int score;

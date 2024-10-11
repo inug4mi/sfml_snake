@@ -1,9 +1,10 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <string>
+//#include <string>
 #include "variables.hpp"
-
+//#include "game_state.hpp"
+//#include "text.hpp"
 namespace GEngine {
     class Renderer {
     public:
@@ -24,8 +25,8 @@ namespace GEngine {
             window.draw(object);
         }
 
-        void wpollEvents(GEngine::Variables &variables, sf::Vector2f &direction);   
-
+        void wpollEventsPlaying(GEngine::Variables &variables, sf::Vector2f &direction);   
+        //void wpollEventsMainMenu(GEngine::Variables &variables, GameState &currentState, Text &text, sf::Text &startText);
         // hacer privado variable window
         sf::RenderWindow window;  
         sf::Event event;         
